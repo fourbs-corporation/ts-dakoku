@@ -56,8 +56,10 @@ func (ctx *Context) getSalesforceOAuth2Config() *oauth2.Config {
 		RedirectURL:  ctx.getSalesforceOAuthCallbackURL(),
 		Endpoint: oauth2.Endpoint{
 			// https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/intro_understanding_oauth_endpoints.htm
-			AuthURL:  "https://login.salesforce.com/services/oauth2/authorize",
-			TokenURL: "https://login.salesforce.com/services/oauth2/token",
+			AuthURL:  "https://teamspirit-2647--dev1.cloudforce.com/services/oauth2/authorize",
+			TokenURL: "https://teamspirit-2647--dev1.cloudforce.com/services/oauth2/token",
+			// AuthURL:  "https://login.salesforce.com/services/oauth2/authorize",
+			// TokenURL: "https://login.salesforce.com/services/oauth2/token",
 		},
 	}
 }
