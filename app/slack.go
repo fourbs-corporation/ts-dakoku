@@ -78,7 +78,7 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 		params.ResponseType = "ephemeral"
 		params.ReplaceOriginal = false
 		params.Text = "勤務表の更新に失敗しました :warning:"
-		fmt.Println(string(err))
+		log.Fatal(err)
 	}
 
 	return params, data.ResponseURL, nil
