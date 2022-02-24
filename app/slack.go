@@ -248,9 +248,34 @@ func (ctx *Context) getSlackMessage(command slack.SlashCommand) (*slack.Msg, err
 						Type:  "select",
 						Options: []slack.AttachmentActionOption{
 							{
+								Text: "08:30",
+								Value: "830",
+							},
+							{
 								Text: "09:00",
 								Value: "900",
 							},
+							{
+								Text: "09:30",
+								Value: "930",
+							},
+							{
+								Text: "10:00",
+								Value: "1000",
+							},
+							{
+								Text: "10:30",
+								Value: "1030",
+							},
+							{
+								Text: "11:00",
+								Value: "1100",
+							},
+						},
+						Confirm: &slack.ConfirmationField{
+							Text:        "選択した時刻で出勤しますか？",
+							OkText:      "はい",
+							DismissText: "いいえ",
 						},
 					},
 				},
