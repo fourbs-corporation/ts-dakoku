@@ -235,7 +235,7 @@ func (ctx *Context) getSlackMessage(command slack.SlashCommand) (*slack.Msg, err
 			},
 		}, nil
 	}
-	return slack.Attachment{
+	return &slack.Attachment{
 		CallbackID: callbackIDAttendanceButton,
 		Actions: []slack.AttachmentAction{
 			slack.AttachmentAction{
