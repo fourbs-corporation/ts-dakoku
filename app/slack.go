@@ -5,8 +5,6 @@ import (
 
 	"github.com/nlopes/slack"
 	
-	"log"
-	
 )
 
 const (
@@ -76,9 +74,6 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 		params.ResponseType = "ephemeral"
 		params.ReplaceOriginal = false
 		params.Text = "勤務表の更新に失敗しました :warning:"
-		log.Print("err start --")
-		log.Print(err)
-		log.Print("-- err end")
 	}
 
 	return params, data.ResponseURL, nil
