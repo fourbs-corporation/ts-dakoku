@@ -250,8 +250,8 @@ func (ctx *Context) getSlackMessage(command slack.SlashCommand) (*slack.Msg, err
 							{
 								Text: "09:00",
 								Value: "900",
-							}
-						}
+							},
+						},
 					},
 				},
 			},
