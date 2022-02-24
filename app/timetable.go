@@ -148,7 +148,7 @@ func (ctx *Context) createTimeTableClient() *timeTableClient {
 	}
 	ctx.TimeTableClient = &timeTableClient{
 		HTTPClient: ctx.getSalesforceOAuth2Client(),
-		Endpoint:   "https://" + ctx.TeamSpiritHost + "/services/apexrest/Dakoku",
+		Endpoint:   "https://" + ctx.TeamSpiritHost + "/services/apexrest/Dakoku", // https://{host_sub_domain}.cloudforce.com/services/apexrest/Dakoku
 	}
 	return ctx.TimeTableClient
 }
