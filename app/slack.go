@@ -246,6 +246,12 @@ func (ctx *Context) getSlackMessage(command slack.SlashCommand) (*slack.Msg, err
 						Text:  "出勤する",
 						Style: "primary",
 						Type:  "button",
+						Options: [
+							{
+								"text": "09:00",
+								"value": "900"
+							},
+						]
 					},
 				},
 			},
