@@ -245,7 +245,7 @@ func (ctx *Context) getSlackMessage(command slack.SlashCommand) (*slack.Msg, err
 						Value: actionTypeAttend,
 						Text:  "出勤する",
 						Style: "primary",
-						Type:  "button",
+						Type:  "select",
 						Options: []slack.AttachmentActionOption{
 							{
 								Text: "09:00",
