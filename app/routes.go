@@ -165,7 +165,7 @@ func (app *App) handleActionCallback(w http.ResponseWriter, r *http.Request) {
 
 	var data slack.AttachmentActionCallback
 	log.Printf("-- AttachmentActionCallback data --")
-	log.Print(json.Unmarshal([]byte(payload), &data))
+	log.Print(data)
 	if err := json.Unmarshal([]byte(payload), &data); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
