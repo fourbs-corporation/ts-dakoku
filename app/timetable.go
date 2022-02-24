@@ -8,8 +8,6 @@ import (
 	"io/ioutil"
 	"net/http"
 	"time"
-	
-	"log"
 
 	"gopkg.in/guregu/null.v3"
 )
@@ -168,8 +166,6 @@ func (client *timeTableClient) doRequest(method string, data io.Reader) ([]byte,
 		return nil, err
 	}
 	body, err := ioutil.ReadAll(res.Body)
-	log.Printf("doRequest body --")
-	log.Print(body)
 	return body, err
 }
 
