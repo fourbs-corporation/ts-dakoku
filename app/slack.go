@@ -46,29 +46,30 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 	hour, _ := strconv.Atoi(timeFactor[0]) // string to int
 	min, _ := strconv.Atoi(timeFactor[1]) // string to int
 	selectedTime := time.Date(year, month, day, hour, min, 0, 0, time.UTC)
+	selectedTimeStr := selectedTime.Format("2006/01/02 15:04") // 日付を文字列化
 	attendance := -1
 	switch data.Actions[0].Name {
 	case actionTypeLeave:
 		{
 			// attendance = 0
 			timeTable.Leave(selectedTime)
-			text = "退勤しました :house:"
+			text = selectedTimeStr + ": " + "退勤しました :house:"
 		}
 	case actionTypeRest:
 		{
 			timeTable.Rest(selectedTime)
-			text = "休憩を開始しました :coffee:"
+			text = selectedTimeStr + ": " + "休憩を開始しました :coffee:"
 		}
 	case actionTypeUnrest:
 		{
 			timeTable.Unrest(selectedTime)
-			text = "休憩を終了しました :computer:"
+			text =  selectedTimeStr + ": " + "休憩を終了しました :computer:"
 		}
 	case actionTypeAttend:
 		{
 			// attendance = 1
 			timeTable.Attend(selectedTime)
-			text = "出勤しました :office:"
+			text =  selectedTimeStr + ": " + "出勤しました :office:"
 		}
 	}
 
