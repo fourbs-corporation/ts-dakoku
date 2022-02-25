@@ -41,6 +41,7 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 	log.Printf("-- year, month, day --")
 	log.Print(year)
 	log.Print(month)
+	log.Print(day)
 	log.Printf("-- hour, min, sec --")
 	log.Print(hour)
 	log.Print(min)
