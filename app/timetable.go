@@ -192,7 +192,7 @@ func (client *timeTableClient) UpdateTimeTable(timeTable *timeTable) (bool, erro
 }
 
 func (client *timeTableClient) SetAttendance(attendance bool, attendTime time.Time) (bool, error) {
-	data := map[string]bool{"attendance": attendance, "attendTime": attendTime}
+	data := map[string](bool, time.Time){"attendance": attendance, "attendTime": attendTime}
 	b, err := json.Marshal(data)
 	if err != nil {
 		return false, err
