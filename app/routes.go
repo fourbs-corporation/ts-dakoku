@@ -173,7 +173,7 @@ func (app *App) handleActionCallback(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	log.Printf("-- getActionCallback SelectedOptions --")
-	log.Print(data.Actions.SelectedOptions.Value)
+	log.Print(data.Actions[0].SelectedOptions.Value)
 	ctx.UserID = data.User.ID
 	if data.CallbackID == callbackIDChannelSelect {
 		action := data.Actions[0]
