@@ -147,8 +147,6 @@ func (app *App) handleSlashCommand(w http.ResponseWriter, r *http.Request) {
 
 	go func() {
 		params, _ := ctx.getSlackMessage(s)
-		log.Printf("-- getSlackMessage params --")
-		log.Print(params)
 		b, _ := json.Marshal(params)
 		http.Post(s.ResponseURL, "application/json", bytes.NewBuffer(b))
 	}()
@@ -162,10 +160,10 @@ func (app *App) handleActionCallback(w http.ResponseWriter, r *http.Request) {
 	ctx := app.createContext(r)
 	r.ParseForm()
 	payload := r.PostForm.Get("payload")
+	log.Printf("-- getActionCallback payload --")
+	log.Print(payload)
 
 	var data slack.AttachmentActionCallback
-	log.Printf("-- AttachmentActionCallback data --")
-	log.Print(data)
 	if err := json.Unmarshal([]byte(payload), &data); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
@@ -191,10 +189,6 @@ func (app *App) handleActionCallback(w http.ResponseWriter, r *http.Request) {
 	}
 	go func() {
 		params, responseURL, err := ctx.getActionCallback(&data)
-		log.Printf("-- getActionCallback params --")
-		log.Print(params)
-		log.Printf("-- getActionCallback responseURL --")
-		log.Print(responseURL)
 		if err != nil && params == nil && responseURL != "" {
 			http.Post(responseURL, "text/plain", bytes.NewBufferString(err.Error()))
 			return

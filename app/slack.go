@@ -159,8 +159,6 @@ func (ctx *Context) getChannelSelectSlackMessage() (*slack.Msg, error) {
 }
 
 func (ctx *Context) getSlackMessage(command slack.SlashCommand) (*slack.Msg, error) {
-	log.Printf("getSlackMessage command.Text")
-	log.Print(command.Text)
 	text := command.Text
 	state := State{
 		TeamID:      command.TeamID,
