@@ -30,9 +30,9 @@ global with sharing class TSTimeTableAPIController {
     }
 
     @HttpPut
-    global static String handleSetAttendance(Boolean attendance) {
+    global static String handleSetAttendance(Integer attendance, Integer hour, Integer min) {
         TSTimeTableAPIController ctrl = new TSTimeTableAPIController();
-        if (ctrl.setAttendance(attendance)) {
+        if (ctrl.setAttendance(attendance, hour, min)) {
             return 'OK';
         }
         return 'NG';
@@ -51,12 +51,18 @@ global with sharing class TSTimeTableAPIController {
         return res.get('result') == 'OK';
     }
 
-    public Boolean setAttendance(Boolean attendance) {
-        DateTime now = DateTime.now();
-        Integer timeHM = now.hour() * 60 + now.minute();
+    public Boolean setAttendance(Integer attendance, Integer hour, Integer min) {
+        Boolean isAttend = false;
+        if (attendance == 1) {
+            isAttend = true;
+        }
+        // DateTime now = DateTime.now();
+        // Integer timeHM = hour * 60 + min;
+        Integer timeHM = 13 * 60 + 30;
         Map<String, Object> params = getBaseParams();
-        Map<String, Object> input = new Map<String, Object>{'comment' => '', 'time' => timeHM, 'face' => attendance ? 0 : 1, 'fix' => false, 'type' => 10};
-            params.put('input', input);
+        Map<String, Object> input = new Map<String, Object>{'from' => 900, 'to' => 1840, 'type' => 1};
+        // Map<String, Object> input = new Map<String, Object>{'comment' => '', 'time' => timeHM, 'face' => isAttend ? 0 : 1, 'fix' => false, 'type' => 10};
+        params.put('input', input);
         params.put('prevFlag', false);
         params.put('stdStartTime', stdStartTime);
         params.put('stdEndTime', stdEndTime);
@@ -76,7 +82,7 @@ global with sharing class TSTimeTableAPIController {
         }
 
         Map<String, Integer> item = new Map<String, Integer>{};
-            item.put('from', Integer.valueOf(empToday.teamspirit__StartTime__c));
+        item.put('from', Integer.valueOf(empToday.teamspirit__StartTime__c));
         item.put('to', Integer.valueOf(empToday.teamspirit__EndTime__c));
         item.put('type', 1);
         timeTable.add(item);
