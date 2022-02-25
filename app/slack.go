@@ -258,7 +258,6 @@ func (ctx *Context) getSlackMessage(command slack.SlashCommand) (*slack.Msg, err
 								},
 							},
 							Confirm: &slack.ConfirmationField{
-								Style: "danger",
 								Text:        "選択した時刻で休憩を終了しますか？",
 								OkText:      "はい",
 								DismissText: "いいえ",
@@ -378,7 +377,6 @@ func (ctx *Context) getSlackMessage(command slack.SlashCommand) (*slack.Msg, err
 								},
 							},
 							Confirm: &slack.ConfirmationField{
-								Style: "danger",
 								Text:        "選択した時刻で退勤しますか？",
 								OkText:      "はい",
 								DismissText: "いいえ",
