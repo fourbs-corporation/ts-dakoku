@@ -51,9 +51,8 @@ global with sharing class TSTimeTableAPIController {
         return res.get('result') == 'OK';
     }
 
-    public Boolean setAttendance(Boolean attendance, Datetime attendTime) {
-        // DateTime now = DateTime.now();
-        DateTime now = attendTime;
+    public Boolean setAttendance(Boolean attendance) {
+        DateTime now = DateTime.now();
         Integer timeHM = now.hour() * 60 + now.minute();
         Map<String, Object> params = getBaseParams();
         Map<String, Object> input = new Map<String, Object>{'comment' => '', 'time' => timeHM, 'face' => attendance ? 0 : 1, 'fix' => false, 'type' => 10};
