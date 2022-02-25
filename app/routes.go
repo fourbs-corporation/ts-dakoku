@@ -191,6 +191,8 @@ func (app *App) handleActionCallback(w http.ResponseWriter, r *http.Request) {
 	}
 	go func() {
 		params, responseURL, err := ctx.getActionCallback(&data)
+		log.Printf("-- getActionCallback params --")
+		log.Print(params)
 		if err != nil && params == nil && responseURL != "" {
 			http.Post(responseURL, "text/plain", bytes.NewBufferString(err.Error()))
 			return
