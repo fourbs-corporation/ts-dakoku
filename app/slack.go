@@ -257,6 +257,12 @@ func (ctx *Context) getSlackMessage(command slack.SlashCommand) (*slack.Msg, err
 									Value: "16:00",
 								},
 							},
+							Confirm: &slack.ConfirmationField{
+								Style: "danger",
+								Text:        "選択した時刻で休憩を終了しますか？",
+								OkText:      "はい",
+								DismissText: "いいえ",
+							},
 						},
 					},
 				},
@@ -313,6 +319,11 @@ func (ctx *Context) getSlackMessage(command slack.SlashCommand) (*slack.Msg, err
 									Value: "15:00",
 								},
 							},
+							Confirm: &slack.ConfirmationField{
+								Text:        "選択した時刻で休憩を開始しますか？",
+								OkText:      "はい",
+								DismissText: "いいえ",
+							},
 						},
 						slack.AttachmentAction{
 							Name:  actionTypeLeave,
@@ -367,7 +378,8 @@ func (ctx *Context) getSlackMessage(command slack.SlashCommand) (*slack.Msg, err
 								},
 							},
 							Confirm: &slack.ConfirmationField{
-								Text:        "退勤しますか？",
+								Style: "danger",
+								Text:        "選択した時刻で退勤しますか？",
 								OkText:      "はい",
 								DismissText: "いいえ",
 							},
