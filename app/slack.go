@@ -218,7 +218,45 @@ func (ctx *Context) getSlackMessage(command slack.SlashCommand) (*slack.Msg, err
 							Value: actionTypeUnrest,
 							Text:  "休憩を終了する",
 							Style: "default",
-							Type:  "button",
+							Type:  "select",
+							Options: []slack.AttachmentActionOption{
+								{
+									Text: "12:00",
+									Value: "12:00",
+								},
+								{
+									Text: "12:30",
+									Value: "12:30",
+								},
+								{
+									Text: "13:00",
+									Value: "13:00",
+								},
+								{
+									Text: "13:30",
+									Value: "13:30",
+								},
+								{
+									Text: "14:00",
+									Value: "14:00",
+								},
+								{
+									Text: "14:30",
+									Value: "14:30",
+								},
+								{
+									Text: "15:00",
+									Value: "15:00",
+								},
+								{
+									Text: "15:30",
+									Value: "15:30",
+								},
+								{
+									Text: "16:00",
+									Value: "16:00",
+								},
+							},
 						},
 					},
 				},
@@ -236,14 +274,98 @@ func (ctx *Context) getSlackMessage(command slack.SlashCommand) (*slack.Msg, err
 							Value: actionTypeRest,
 							Text:  "休憩を開始する",
 							Style: "default",
-							Type:  "button",
+							Type:  "select",
+							Options: []slack.AttachmentActionOption{
+								{
+									Text: "11:00",
+									Value: "11:00",
+								},
+								{
+									Text: "11:30",
+									Value: "11:30",
+								},
+								{
+									Text: "12:00",
+									Value: "12:00",
+								},
+								{
+									Text: "12:30",
+									Value: "12:30",
+								},
+								{
+									Text: "13:00",
+									Value: "13:00",
+								},
+								{
+									Text: "13:30",
+									Value: "13:30",
+								},
+								{
+									Text: "14:00",
+									Value: "14:00",
+								},
+								{
+									Text: "14:30",
+									Value: "14:30",
+								},
+								{
+									Text: "15:00",
+									Value: "15:00",
+								},
+							},
 						},
 						slack.AttachmentAction{
 							Name:  actionTypeLeave,
 							Value: actionTypeLeave,
 							Text:  "退勤する",
 							Style: "danger",
-							Type:  "button",
+							Type:  "select",
+							Options: []slack.AttachmentActionOption{
+								{
+									Text: "16:00",
+									Value: "16:00",
+								},
+								{
+									Text: "16:30",
+									Value: "16:30",
+								},
+								{
+									Text: "17:00",
+									Value: "17:00",
+								},
+								{
+									Text: "17:30",
+									Value: "17:30",
+								},
+								{
+									Text: "18:00",
+									Value: "18:00",
+								},
+								{
+									Text: "18:30",
+									Value: "18:30",
+								},
+								{
+									Text: "19:00",
+									Value: "19:00",
+								},
+								{
+									Text: "19:30",
+									Value: "19:30",
+								},
+								{
+									Text: "20:00",
+									Value: "20:00",
+								},
+								{
+									Text: "20:30",
+									Value: "20:30",
+								},
+								{
+									Text: "21:00",
+									Value: "21:00",
+								},
+							},
 							Confirm: &slack.ConfirmationField{
 								Text:        "退勤しますか？",
 								OkText:      "はい",
