@@ -157,8 +157,6 @@ func (ctx *Context) getChannelSelectSlackMessage() (*slack.Msg, error) {
 }
 
 func (ctx *Context) getSlackMessage(command slack.SlashCommand) (*slack.Msg, error) {
-	now := time.Now()
-	year, month, day := now.Date()
 	text := command.Text
 	state := State{
 		TeamID:      command.TeamID,
@@ -251,27 +249,27 @@ func (ctx *Context) getSlackMessage(command slack.SlashCommand) (*slack.Msg, err
 						Options: []slack.AttachmentActionOption{
 							{
 								Text: "08:30",
-								Value: time.Date(year, month, day, 8, 30, 0, 0, time.UTC),
+								Value: "08:30",
 							},
 							{
 								Text: "09:00",
-								Value: time.Date(year, month, day, 9, 00, 0, 0, time.UTC),
+								Value: "09:00",
 							},
 							{
 								Text: "09:30",
-								Value: time.Date(year, month, day, 9, 30, 0, 0, time.UTC),
+								Value: "09:30",
 							},
 							{
 								Text: "10:00",
-								Value: time.Date(year, month, day, 10, 00, 0, 0, time.UTC),
+								Value: "10:00",
 							},
 							{
 								Text: "10:30",
-								Value: time.Date(year, month, day, 10, 30, 0, 0, time.UTC),
+								Value: "10:30",
 							},
 							{
 								Text: "11:00",
-								Value: time.Date(year, month, day, 11, 00, 0, 0, time.UTC),
+								Value: "11:00",
 							},
 						},
 						Confirm: &slack.ConfirmationField{
