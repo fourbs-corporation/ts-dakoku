@@ -36,7 +36,7 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 
 	text := ""
 	now := time.Now()
-	year, month, day := now.Date()
+	// year, month, day := now.Date()
 	attendance := -1
 	switch data.Actions[0].Name {
 	case actionTypeLeave:
@@ -69,11 +69,11 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 
 	var ok bool
 	if attendance != -1 {
-		selectedTime := data.Actions[0].SelectedOptions[0].Value // 選択した出勤時間を取得
-		timeFactor := strings.Split(selectedTime, ":") // 時刻文字列を「:」で分割
-		hour, _ := strconv.Atoi(timeFactor[0]) // string to int
-		min, _ := strconv.Atoi(timeFactor[1]) // string to int
-		attendTime := time.Date(year, month, day, hour, min, 0, 0, time.UTC)
+		// selectedTime := data.Actions[0].SelectedOptions[0].Value // 選択した出勤時間を取得
+		// timeFactor := strings.Split(selectedTime, ":") // 時刻文字列を「:」で分割
+		// hour, _ := strconv.Atoi(timeFactor[0]) // string to int
+		// min, _ := strconv.Atoi(timeFactor[1]) // string to int
+		// attendTime := time.Date(year, month, day, hour, min, 0, 0, time.UTC)
 		// ok, err = client.SetAttendance(attendance == 1, attendTime)
 		ok, err = client.SetAttendance(attendance == 1)
 	} else {
