@@ -56,12 +56,12 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 		}
 	case actionTypeRest:
 		{
-			timeTable.Rest(now)
+			timeTable.Rest(attendTime)
 			text = "休憩を開始しました :coffee:"
 		}
 	case actionTypeUnrest:
 		{
-			timeTable.Unrest(now)
+			timeTable.Unrest(attendTime)
 			text = "休憩を終了しました :computer:"
 		}
 	case actionTypeAttend:
