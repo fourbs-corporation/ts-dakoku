@@ -78,7 +78,7 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 		hour, _ := strconv.Atoi(timeFactor[0]) // string to int
 		min, _ := strconv.Atoi(timeFactor[1]) // string to int
 		// attendTime := time.Date(year, month, day, hour, min, 0, 0, time.UTC)
-		ok, err = client.SetAttendance(attendance == 1, hour, min)
+		ok, err = client.SetAttendance(1, hour, min)
 		// ok, err = client.SetAttendance(attendance == 1)
 	} else {
 		ok, err = client.UpdateTimeTable(timeTable)
