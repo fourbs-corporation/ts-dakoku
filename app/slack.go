@@ -2,8 +2,8 @@ package app
 
 import (
 	"time"
-	"strings"
-	"strconv"
+	// "strings"
+	// "strconv"
 
 	"github.com/nlopes/slack"
 
