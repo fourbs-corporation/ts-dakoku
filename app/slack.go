@@ -37,15 +37,6 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 	text := ""
 	now := time.Now()
 	year, month, day := now.Date()
-	hour, min, sec := now.Clock()
-	log.Printf("-- year, month, day --")
-	log.Print(year)
-	log.Print(month)
-	log.Print(day)
-	log.Printf("-- hour, min, sec --")
-	log.Print(hour)
-	log.Print(min)
-	log.Print(sec)
 	attendance := -1
 	switch data.Actions[0].Name {
 	case actionTypeLeave:
@@ -261,27 +252,27 @@ func (ctx *Context) getSlackMessage(command slack.SlashCommand) (*slack.Msg, err
 						Options: []slack.AttachmentActionOption{
 							{
 								Text: "08:30",
-								Value: "830",
+								Value: timeDate(year, month, day, 8, 30, 0, 0, time.UTC),
 							},
 							{
 								Text: "09:00",
-								Value: "900",
+								Value: timeDate(year, month, day, 9, 00, 0, 0, time.UTC),
 							},
 							{
 								Text: "09:30",
-								Value: "930",
+								Value: timeDate(year, month, day, 9, 30, 0, 0, time.UTC),
 							},
 							{
 								Text: "10:00",
-								Value: "1000",
+								Value: timeDate(year, month, day, 10, 00, 0, 0, time.UTC),
 							},
 							{
 								Text: "10:30",
-								Value: "1030",
+								Value: timeDate(year, month, day, 10, 30, 0, 0, time.UTC),
 							},
 							{
 								Text: "11:00",
-								Value: "1100",
+								Value: timeDate(year, month, day, 11, 00, 0, 0, time.UTC),
 							},
 						},
 						Confirm: &slack.ConfirmationField{
