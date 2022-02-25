@@ -5,8 +5,6 @@ import (
 	"strings"
 	"strconv"
 
-	"log"
-
 	"github.com/nlopes/slack"
 
 )
@@ -76,9 +74,7 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 		hour, _ := strconv.Atoi(timeFactor[0]) // string to int
 		min, _ := strconv.Atoi(timeFactor[1]) // string to int
 		attendTime := time.Date(year, month, day, hour, min, 0, 0, time.UTC)
-		log.Printf("-- attendTime --")
-		log.Print(attendTime)
-		ok, err = client.SetAttendance(attendance == 1)
+		ok, err = client.SetAttendance(attendance == 1, attendTime)
 	} else {
 		ok, err = client.UpdateTimeTable(timeTable)
 	}
