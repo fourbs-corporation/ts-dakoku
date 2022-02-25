@@ -36,7 +36,7 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 
 	text := ""
 	now := time.Now()
-	_, year, month, day := now.Date()
+	year, month, day := now.Date()
 	log.Printf("-- year, month, day --")
 	log.Print(year)
 	log.Print(month)
