@@ -5,6 +5,8 @@ import (
 	// "strings"
 	// "strconv"
 
+	"log"
+
 	"github.com/nlopes/slack"
 
 )
@@ -24,6 +26,8 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 	ctx.UserID = data.User.ID
 	client := ctx.createTimeTableClient()
 	timeTable, err := client.GetTimeTable()
+	log.Printf("-- getActionCallback timeTable --")
+	log.Print(timeTable)
 	if err != nil {
 		state := State{
 			TeamID:      data.Team.ID,
