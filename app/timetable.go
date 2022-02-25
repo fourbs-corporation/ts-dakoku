@@ -33,6 +33,11 @@ type timeTableClient struct {
 	Endpoint   string
 }
 
+type AttendInfo struct {
+	Attendance bool
+	AttendTime time.Time
+}
+
 func parseTimeTable(body []byte) (*timeTable, error) {
 	var errors []timeTableError
 	if err := json.Unmarshal(body, &errors); err == nil && len(errors) > 0 && errors[0].Code != "" {
@@ -192,7 +197,8 @@ func (client *timeTableClient) UpdateTimeTable(timeTable *timeTable) (bool, erro
 }
 
 func (client *timeTableClient) SetAttendance(attendance bool, attendTime time.Time) (bool, error) {
-	data := map[string](bool, time.Time){"attendance": attendance, "attendTime": attendTime}
+	// data := map[string]bool{"attendance": attendance, "attendTime": attendTime}
+	data := map[int]AttendInfo{0: {Attendance: attendance, AttendTime: attendTime}}
 	b, err := json.Marshal(data)
 	if err != nil {
 		return false, err
