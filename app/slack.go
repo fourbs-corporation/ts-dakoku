@@ -2,6 +2,9 @@ package app
 
 import (
 	"time"
+	"strings"
+
+	"log"
 
 	"github.com/nlopes/slack"
 
@@ -34,6 +37,7 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 
 	text := ""
 	now := time.Now()
+	year, month, day := now.Date()
 	attendance := -1
 	switch data.Actions[0].Name {
 	case actionTypeLeave:
@@ -66,6 +70,13 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 
 	var ok bool
 	if attendance != -1 {
+		selectedTime := data.Actions[0].SelectedOptions[0].Value // 選択した出勤時間を取得
+		timeFactor := strings.Split(selectedTime, ":") // 時刻文字列を「:」で分割
+		hour := timeFactor[0]
+		min := timeFactor[1]
+		attendTime := time.Date(year, month, date, hour, min, 0, 0, time.UTC)
+		log.Printf("-- attendTime --")
+		log.Print(attendTime)
 		ok, err = client.SetAttendance(attendance == 1)
 	} else {
 		ok, err = client.UpdateTimeTable(timeTable)
