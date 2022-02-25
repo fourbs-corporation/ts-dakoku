@@ -251,27 +251,27 @@ func (ctx *Context) getSlackMessage(command slack.SlashCommand) (*slack.Msg, err
 						Options: []slack.AttachmentActionOption{
 							{
 								Text: "08:30",
-								Value: timeDate(year, month, day, 8, 30, 0, 0, time.UTC),
+								Value: time.Date(year, month, day, 8, 30, 0, 0, time.UTC),
 							},
 							{
 								Text: "09:00",
-								Value: timeDate(year, month, day, 9, 00, 0, 0, time.UTC),
+								Value: time.Date(year, month, day, 9, 00, 0, 0, time.UTC),
 							},
 							{
 								Text: "09:30",
-								Value: timeDate(year, month, day, 9, 30, 0, 0, time.UTC),
+								Value: time.Date(year, month, day, 9, 30, 0, 0, time.UTC),
 							},
 							{
 								Text: "10:00",
-								Value: timeDate(year, month, day, 10, 00, 0, 0, time.UTC),
+								Value: time.Date(year, month, day, 10, 00, 0, 0, time.UTC),
 							},
 							{
 								Text: "10:30",
-								Value: timeDate(year, month, day, 10, 30, 0, 0, time.UTC),
+								Value: time.Date(year, month, day, 10, 30, 0, 0, time.UTC),
 							},
 							{
 								Text: "11:00",
-								Value: timeDate(year, month, day, 11, 00, 0, 0, time.UTC),
+								Value: time.Date(year, month, day, 11, 00, 0, 0, time.UTC),
 							},
 						},
 						Confirm: &slack.ConfirmationField{
