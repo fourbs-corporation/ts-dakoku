@@ -104,8 +104,8 @@ func (tt *timeTable) Attend(time time.Time) bool {
 		Type: 1,
 	})
 	tt.Items = append(tt.Items, timeTableItem{
-		From: int64(12*60 + 00),
-		To: int64(13*60 + 00),
+		From: null.IntFrom(int64(12*60 + 00)),
+		To: null.IntFrom(int64(13*60 + 00)),
 		Type: 21,
 	})
 	return true
