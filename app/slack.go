@@ -53,23 +53,23 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 		{
 			// attendance = 0
 			timeTable.Leave(selectedTime)
-			text = "*【" + selectedTimeStr + "】*" + "退勤しました :house:"
+			text = "【" + selectedTimeStr + "】" + "退勤しました :house:"
 		}
 	case actionTypeRest:
 		{
 			timeTable.Rest(selectedTime)
-			text = "*【" + selectedTimeStr + "】*" + "休憩を開始しました :coffee:"
+			text = "【" + selectedTimeStr + "】" + "休憩を開始しました :coffee:"
 		}
 	case actionTypeUnrest:
 		{
 			timeTable.Unrest(selectedTime)
-			text =  "*【" + selectedTimeStr + "】*" + "休憩を終了しました :computer:"
+			text =  "【" + selectedTimeStr + "】" + "休憩を終了しました :computer:"
 		}
 	case actionTypeAttend:
 		{
 			// attendance = 1
 			timeTable.Attend(selectedTime)
-			text = "*【" + selectedTimeStr + "】*" + "出勤しました :office:"
+			text = "【" + selectedTimeStr + "】" + "出勤しました :office:"
 		}
 	}
 
