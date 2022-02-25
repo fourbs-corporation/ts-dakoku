@@ -5,6 +5,8 @@ import (
 
 	"github.com/nlopes/slack"
 
+	"log"
+
 )
 
 const (
@@ -34,6 +36,11 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 
 	text := ""
 	now := time.Now()
+	_, year, month, day := now.Date()
+	log.Printf("-- year, month, day --")
+	log.Print(year)
+	log.Print(month)
+	log.Print(day)
 	attendance := -1
 	switch data.Actions[0].Name {
 	case actionTypeLeave:
