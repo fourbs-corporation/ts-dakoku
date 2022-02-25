@@ -5,8 +5,6 @@ import (
 
 	"github.com/nlopes/slack"
 
-	"log"
-
 )
 
 const (
@@ -36,7 +34,6 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 
 	text := ""
 	now := time.Now()
-	year, month, day := now.Date()
 	attendance := -1
 	switch data.Actions[0].Name {
 	case actionTypeLeave:
@@ -160,6 +157,8 @@ func (ctx *Context) getChannelSelectSlackMessage() (*slack.Msg, error) {
 }
 
 func (ctx *Context) getSlackMessage(command slack.SlashCommand) (*slack.Msg, error) {
+	now := time.Now()
+	year, month, day := now.Date()
 	text := command.Text
 	state := State{
 		TeamID:      command.TeamID,
