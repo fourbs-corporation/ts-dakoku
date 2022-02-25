@@ -40,7 +40,7 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 
 	text := ""
 	now := time.Now()
-	year, month, day := now.Date()
+	// year, month, day := now.Date()
 	attendance := -1
 	switch data.Actions[0].Name {
 	case actionTypeLeave:
