@@ -57,7 +57,7 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 	case actionTypeReset:
 		{
 			timeTable.Reset(selectedTime)
-			text = "【" selectedTimeStr + "】" + "勤怠打刻をリセットしました :u7a7a:"
+			text = "【" + selectedTimeStr + "】" + "勤怠打刻をリセットしました :u7a7a:"
 		}
 	case actionTypeLeave:
 		{
