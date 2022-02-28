@@ -27,7 +27,7 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 	client := ctx.createTimeTableClient()
 	timeTable, err := client.GetTimeTable()
 	log.Printf("-- timeTable.IsRest --")
-	log.Print(timeTable.Items[0].Type)
+	log.Print(timeTable.Items)
 	if err != nil {
 		state := State{
 			TeamID:      data.Team.ID,
