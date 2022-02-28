@@ -51,9 +51,9 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 	switch data.Actions[0].Name {
 	case actionTypeLeave:
 		{
-			restStartTime := time.Date(year, month, day, 12, 0, 0, 0, time.UTC)
-			restEndTime := time.Date(year, month, day, 13, 0, 0, 0, time.UTC)
 			if !timeTable.HasRested() {
+				restStartTime := time.Date(year, month, day, 12, 0, 0, 0, time.UTC)
+				restEndTime := time.Date(year, month, day, 13, 0, 0, 0, time.UTC)
 				timeTable.Rest(restStartTime)
 				timeTable.Unrest(restEndTime)
 			}
