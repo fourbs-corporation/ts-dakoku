@@ -57,7 +57,7 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 	case actionTypeReset:
 		{
 			timeTable.Reset(selectedTime)
-			text = "【" + selectedTimeStr + "】" + "勤怠打刻をリセットしました :u7a7a:"
+			text = "【" + selectedTimeStr + "】" + "の勤怠情報をリセットしました :u7a7a:"
 		}
 	case actionTypeLeave:
 		{
@@ -217,6 +217,25 @@ func (ctx *Context) getSlackMessage(command slack.SlashCommand) (*slack.Msg, err
 	if timeTable.IsLeaving() {
 		return &slack.Msg{
 			Text: "既に退勤済です。打刻修正は <https://" + ctx.TeamSpiritHost + "|TeamSpirit> で行なってください。",
+			Attachments: []slack.Attachment{
+				slack.Attachment{
+					CallbackID: callbackIDAttendanceButton,
+					Actions: []slack.AttachmentAction{
+						slack.AttachmentAction{
+							Name:  actionTypeReset,
+							Value: actionTypeReset,
+							Text:  "リセットする",
+							Style: "danger",
+							Type:  "button",
+							Confirm: &slack.ConfirmationField{
+								Text:        "本当に本日の勤怠をリセットしますか？",
+								OkText:      "はい",
+								DismissText: "いいえ",
+							},
+						},
+					},
+				},
+			},
 		}, nil
 	}
 	if timeTable.IsHoliday != nil && *timeTable.IsHoliday == true {
