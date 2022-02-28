@@ -41,9 +41,9 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 
 	text := ""
 	now := time.Now()
-	selectedTime := time.Now()
-	selectedTimeStr := ""
 	year, month, day := now.Date()
+	selectedTime := time.Now() // 初期化
+	selectedTimeStr := selectedTime.Format("2006/01/02") // 初期化
 	if data.Actions[0].Type == "select" {
 		selectedValue := data.Actions[0].SelectedOptions[0].Value // 選択した出勤時間を取得
 		timeFactor := strings.Split(selectedValue, ":") // 時刻文字列を「:」で分割
@@ -57,7 +57,7 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 	case actionTypeReset:
 		{
 			timeTable.Reset(selectedTime)
-			text = "リセットしました :house:"
+			text = "【" selectedTimeStr + "】" + "勤怠打刻をリセットしました :u7a7a:"
 		}
 	case actionTypeLeave:
 		{
