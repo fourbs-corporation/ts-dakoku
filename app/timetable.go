@@ -81,6 +81,15 @@ func (tt *timeTable) IsResting() bool {
 	return false
 }
 
+func (tt *timeTable) HasRested() bool {
+	for _, item := range tt.Items {
+		if item.IsRest() {
+			return true
+		}
+	}
+	return false
+}
+
 func (tt *timeTable) IsLeaving() bool {
 	for _, item := range tt.Items {
 		if item.IsAttendance() && item.To.Valid {
