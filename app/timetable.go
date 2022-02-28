@@ -160,14 +160,14 @@ func (tt *timeTable) Reset(time time.Time) bool {
 	items := tt.Items
 	for i, item := range items {
 		if item.Type == 21 || item.Type == 22 {
-			items[i].From = null
-			items[i].To = null
+			items[i].From = ""
+			items[i].To = ""
 			tt.Items = items
 		}
 	}
 	tt.Items = append(tt.Items, timeTableItem{
-		From:   null,
-		To:   null,
+		From:   "",
+		To:   "",
 		Type: 1,
 	})
 	return true
