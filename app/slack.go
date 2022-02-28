@@ -16,6 +16,7 @@ const (
 	actionTypeRest             = "rest"
 	actionTypeUnrest           = "unrest"
 	actionTypeLeave            = "leave"
+	actionTypeReset            = "reset"
 	actionTypeSelectChannel    = "select-channel"
 	actionTypeUnselectChannel  = "unselect-channel"
 	callbackIDChannelSelect    = "slack_channel_select_button"
@@ -49,6 +50,11 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 	selectedTimeStr := selectedTime.Format("2006/01/02 15:04") // 日付を文字列化
 	attendance := -1
 	switch data.Actions[0].Name {
+	case actionTypeReset:
+		{
+			timeTable.Reset(selectedTime)
+			text = "リセットしました :house:"
+		}
 	case actionTypeLeave:
 		{
 			if !timeTable.HasRested() {
@@ -270,6 +276,18 @@ func (ctx *Context) getSlackMessage(command slack.SlashCommand) (*slack.Msg, err
 								DismissText: "いいえ",
 							},
 						},
+						slack.AttachmentAction{
+							Name:  actionTypeReset,
+							Value: actionTypeReset,
+							Text:  "リセットする",
+							Style: "danger",
+							Type:  "button",
+							Confirm: &slack.ConfirmationField{
+								Text:        "本当に本日の勤怠をリセットしますか？",
+								OkText:      "はい",
+								DismissText: "いいえ",
+							},
+						},
 					},
 				},
 			},
@@ -390,8 +408,8 @@ func (ctx *Context) getSlackMessage(command slack.SlashCommand) (*slack.Msg, err
 							},
 						},
 						slack.AttachmentAction{
-							Name:  actionTypeLeave,
-							Value: actionTypeLeave,
+							Name:  actionTypeReset,
+							Value: actionTypeReset,
 							Text:  "リセットする",
 							Style: "danger",
 							Type:  "button",

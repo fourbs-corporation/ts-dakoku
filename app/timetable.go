@@ -156,6 +156,23 @@ func (tt *timeTable) Leave(time time.Time) bool {
 	return true
 }
 
+func (tt *timeTable) Reset(time time.Time) bool {
+	items := tt.Items
+	for i, item := range items {
+		if item.Type == 21 || item.Type == 22 {
+			items[i].From = nil
+			items[i].To = nil
+			tt.Items = items
+		}
+	}
+	tt.Items = append(tt.Items, timeTableItem{
+		From:   nil,
+		To:   nil,
+		Type: 1,
+	})
+	return true
+}
+
 func (ctx *Context) createTimeTableClient() *timeTableClient {
 	if ctx.TimeTableClient != nil {
 		return ctx.TimeTableClient
