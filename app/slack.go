@@ -42,6 +42,7 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 	text := ""
 	now := time.Now()
 	selectedTime := time.Now()
+	selectedTimeStr := ""
 	year, month, day := now.Date()
 	if data.Actions[0].Type == "select" {
 		selectedValue := data.Actions[0].SelectedOptions[0].Value // 選択した出勤時間を取得
