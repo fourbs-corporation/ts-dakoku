@@ -172,8 +172,8 @@ func (app *App) handleActionCallback(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Invlaid token", http.StatusUnauthorized)
 		return
 	}
-	log.Printf("-- getActionCallback SelectedOptions --")
-	log.Print(data.Actions[0].SelectedOptions[0].Value)
+	// log.Printf("-- getActionCallback SelectedOptions --")
+	// log.Print(data.Actions[0].SelectedOptions[0].Value)
 	ctx.UserID = data.User.ID
 	if data.CallbackID == callbackIDChannelSelect {
 		action := data.Actions[0]
