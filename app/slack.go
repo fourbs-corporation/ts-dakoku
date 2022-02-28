@@ -389,6 +389,18 @@ func (ctx *Context) getSlackMessage(command slack.SlashCommand) (*slack.Msg, err
 								DismissText: "いいえ",
 							},
 						},
+						slack.AttachmentAction{
+							Name:  actionTypeLeave,
+							Value: actionTypeLeave,
+							Text:  "リセットする",
+							Style: "danger",
+							Type:  "button",
+							Confirm: &slack.ConfirmationField{
+								Text:        "本当に本日の勤怠をリセットしますか？",
+								OkText:      "はい",
+								DismissText: "いいえ",
+							},
+						},
 					},
 				},
 			},
