@@ -4,12 +4,18 @@ import (
 	"time"
 	"strings"
 	"strconv"
+	"math"
 
 	"log"
 
 	"github.com/nlopes/slack"
 
 )
+
+// type hourMinute struct {
+// 	hour int
+// 	min int
+// }
 
 const (
 	actionTypeAttend           = "attend"
@@ -193,6 +199,13 @@ func (ctx *Context) getChannelSelectSlackMessage() (*slack.Msg, error) {
 	}, nil
 }
 
+// func convTimeHourMin(time int) *hourMinute {
+// 	timeByHour := time / 60 // 単位：時
+// 	hour := math.Floor(timeByHour) // 単位：時
+// 	min := (timeByHour - hour) * 60 // 単位：分
+// 	return {"hour": hour, "min": min}
+// }
+
 func (ctx *Context) getSlackMessage(command slack.SlashCommand) (*slack.Msg, error) {
 	text := command.Text
 	state := State{
@@ -218,17 +231,20 @@ func (ctx *Context) getSlackMessage(command slack.SlashCommand) (*slack.Msg, err
 		now := time.Now()
 		todayStr := now.Format("2006/01/02")
 		slackMsg := "【" + todayStr + "】" + "\n"
+		hour := 0
+		min := 0
+		dakokuTime := 0
+		dakokuTimeStr := ""
 		items := timeTable.Items
 		for _, item := range items {
 			if item.IsAttendance() && item.From.Valid {
-				slackMsg += "出勤時間: " + strconv.Itoa(int(item.From.Int64)) + "\n"
+				dakokuTime = int(item.From.Int64) / 60
+				hour = math.Floor(dakokuTime)
+				min = (dakokuTime - hour) * 60
+				dakokuTimeStr = strconv.Itoa(hour) + ":" + strconv.Itoa(min)
+				slackMsg += "出勤時間: " + dakokuTimeStr + "\n"
 			} else if item.IsAttendance() && !item.From.Valid {
 				slackMsg += "出勤時間: 未入力" + "\n"
-			}
-			if item.IsAttendance() && item.To.Valid {
-				slackMsg += "退勤時間: " + strconv.Itoa(int(item.To.Int64)) + "\n"
-			} else if item.IsAttendance() && !item.To.Valid {
-				slackMsg += "退勤時間: 未入力" + "\n"
 			}
 			if item.IsRest() && item.From.Valid {
 				slackMsg += "休憩開始: " + strconv.Itoa(int(item.From.Int64)) + "\n"
@@ -239,6 +255,11 @@ func (ctx *Context) getSlackMessage(command slack.SlashCommand) (*slack.Msg, err
 				slackMsg += "休憩終了: " + strconv.Itoa(int(item.To.Int64)) + "\n"
 			} else if item.IsRest() && !item.To.Valid {
 				slackMsg += "休憩終了: 未入力" + "\n"
+			}
+			if item.IsAttendance() && item.To.Valid {
+				slackMsg += "退勤時間: " + strconv.Itoa(int(item.To.Int64)) + "\n"
+			} else if item.IsAttendance() && !item.To.Valid {
+				slackMsg += "退勤時間: 未入力" + "\n"
 			}
 		}
 		return &slack.Msg{
