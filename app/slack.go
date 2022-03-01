@@ -87,6 +87,10 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 				timeTable.Rest(restStartTime)
 				timeTable.Unrest(restEndTime)
 				timeTable.Leave(endTime)
+				ok, err = client.UpdateTimeTable(timeTable)
+				if !ok || err != nil {
+					break;
+				}
 			}
 			text = "【" + strconv.Itoa(year) + "年" + strconv.Itoa( int(month) ) + "月" + "】" + "の勤怠を一括入力しました :sunglasses:"				
 		}
@@ -128,12 +132,12 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 
 	var ok bool
 	if attendance != -1 {
-		selectedTime := data.Actions[0].SelectedOptions[0].Value // 選択した出勤時間を取得
-		timeFactor := strings.Split(selectedTime, ":") // 時刻文字列を「:」で分割
-		hour, _ := strconv.Atoi(timeFactor[0]) // string to int
-		min, _ := strconv.Atoi(timeFactor[1]) // string to int
+		// selectedTime := data.Actions[0].SelectedOptions[0].Value // 選択した出勤時間を取得
+		// timeFactor := strings.Split(selectedTime, ":") // 時刻文字列を「:」で分割
+		// hour, _ := strconv.Atoi(timeFactor[0]) // string to int
+		// min, _ := strconv.Atoi(timeFactor[1]) // string to int
 		// attendTime := time.Date(year, month, day, hour, min, 0, 0, time.UTC)
-		ok, err = client.SetAttendance(1, hour, min)
+		// ok, err = client.SetAttendance(1, hour, min)
 		// ok, err = client.SetAttendance(attendance == 1)
 	} else {
 		ok, err = client.UpdateTimeTable(timeTable)
