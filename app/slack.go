@@ -198,7 +198,11 @@ func convTimeHourColMin(timeByMin int) string {
 	timeByHour := float64(timeByMin) / 60 // 単位：時
 	hour := int( math.Floor(timeByHour) ) // 単位：時
 	min := int( ( float64(timeByHour) - float64(hour) ) * 60 ) // 単位：分
-	timeHourColMin := strconv.Itoa(hour) + ":" + strconv.Itoa(min) + "0" // string
+	minStr := "00"
+	if min > 0 {
+		minStr = strconv.Itoa(min)
+	}
+	timeHourColMin := strconv.Itoa(hour) + ":" + minStr // string
 	return timeHourColMin
 }
 
