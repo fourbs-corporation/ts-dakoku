@@ -18,7 +18,7 @@ const (
 	actionTypeUnrest           = "unrest"
 	actionTypeLeave            = "leave"
 	actionTypeReset            = "reset"
-	actionTypeOnTime            = "ontime"
+	actionTypeOnTime           = "ontime"
 	actionTypeSelectChannel    = "select-channel"
 	actionTypeUnselectChannel  = "unselect-channel"
 	callbackIDChannelSelect    = "slack_channel_select_button"
@@ -278,7 +278,7 @@ func (ctx *Context) getSlackMessage(command slack.SlashCommand) (*slack.Msg, err
 					Actions: []slack.AttachmentAction{
 						slack.AttachmentAction{
 							Name:  actionTypeOnTime,
-							Value: actionTypeOnTIme,
+							Value: actionTypeOnTime,
 							Text:  "定時打刻する",
 							Style: "primary",
 							Type:  "button",
