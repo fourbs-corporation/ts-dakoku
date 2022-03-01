@@ -223,7 +223,7 @@ func (ctx *Context) getSlackMessage(command slack.SlashCommand) (*slack.Msg, err
 			if item.IsAttendance() && item.From.Valid {
 				slackMsg += "出勤時間: " + strconv.Itoa(int(item.From.Int64)) + "\n"
 			} else {
-				slackMsg += "退勤時間: 未入力" + "\n"
+				slackMsg += "出勤時間: 未入力" + "\n"
 			}
 			if item.IsAttendance() && item.To.Valid {
 				slackMsg += "退勤時間: " + strconv.Itoa(int(item.To.Int64)) + "\n"
@@ -231,7 +231,7 @@ func (ctx *Context) getSlackMessage(command slack.SlashCommand) (*slack.Msg, err
 				slackMsg += "退勤時間: 未入力" + "\n"
 			}
 			if item.IsRest() && item.From.Valid {
-				slackMsg = "休憩開始: " + strconv.Itoa(int(item.From.Int64)) + "\n"
+				slackMsg += "休憩開始: " + strconv.Itoa(int(item.From.Int64)) + "\n"
 			} else {
 				slackMsg += "休憩開始: 未入力" + "\n"
 			}
