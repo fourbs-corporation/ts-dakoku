@@ -221,7 +221,7 @@ func (ctx *Context) getSlackMessage(command slack.SlashCommand) (*slack.Msg, err
 			if item.IsAttendance() && item.From.Valid {
 				log.Printf("-- item.From --")
 				log.Printf("%v", item.From)
-				log.Printf(i)
+				log.Print(i)
 				// slackMsg += "出勤時間: " + strconv.Itoa(item.From) + "\n"
 			} else if item.IsAttendance() && item.To.Valid {
 				// slackMsg += "出勤時間: " + strconv.Itoa(item.To) + "\n"
