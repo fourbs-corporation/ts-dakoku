@@ -63,12 +63,6 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 		}
 	case actionTypeOnTime:
 		{
-			timeTable.Reset(selectedTime)
-			text = "【" + selectedTimeStr + "】" + "の勤怠情報をリセットしました :u7a7a:"
-		}
-	case actionTypeLeave:
-		{
-			// attendance = 0
 			startTime := time.Date(year, month, day, 9, 0, 0, 0, time.UTC) // 定時出勤時刻
 			endTime := time.Date(year, month, day, 18, 0, 0, 0, time.UTC) // 定時退勤時刻
 			restStartTime := time.Date(year, month, day, 12, 0, 0, 0, time.UTC) // 定時休憩開始時刻
@@ -78,6 +72,18 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 			timeTable.Unrest(restEndTime)
 			timeTable.Leave(endTime)
 			text = "【" + selectedTimeStr + "】" + "定時で勤怠入力しました :high_brightness:"
+		}
+	case actionTypeLeave:
+		{
+			if !timeTable.HasRested() {
+				restStartTime := time.Date(year, month, day, 12, 0, 0, 0, time.UTC)
+				restEndTime := time.Date(year, month, day, 13, 0, 0, 0, time.UTC)
+				timeTable.Rest(restStartTime)
+				timeTable.Unrest(restEndTime)
+			}
+			// attendance = 0
+			timeTable.Leave(selectedTime)
+			text = "【" + selectedTimeStr + "】" + "退勤しました :house:"
 		}
 	case actionTypeRest:
 		{
