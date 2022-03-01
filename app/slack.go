@@ -233,7 +233,7 @@ func (ctx *Context) getSlackMessage(command slack.SlashCommand) (*slack.Msg, err
 		slackMsg := "【" + todayStr + "】" + "\n"
 		hour := 0
 		min := 0
-		dakokuTime := 0.1
+		dakokuTime := 0
 		dakokuTimeStr := ""
 		items := timeTable.Items
 		for _, item := range items {
