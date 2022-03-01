@@ -76,7 +76,7 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 		}
 	case actionTypeBulkMonth:
 		{
-			t := time.Date(year, month, 1, 0, 0, 0, 0, time.UTC).AddDate(0, 0, -1) // 今月の日数
+			t := time.Date(year, month + 1, 1, 0, 0, 0, 0, time.UTC).AddDate(0, 0, -1) // 今月の日数
 			// startTime := time.Date(year, month, day, 9, 0, 0, 0, time.UTC) // 定時出勤時刻
 			// endTime := time.Date(year, month, day, 18, 0, 0, 0, time.UTC) // 定時退勤時刻
 			// restStartTime := time.Date(year, month, day, 12, 0, 0, 0, time.UTC) // 定時休憩開始時刻
