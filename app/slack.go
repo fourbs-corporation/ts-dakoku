@@ -87,9 +87,8 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 				timeTable.Rest(restStartTime)
 				timeTable.Unrest(restEndTime)
 				timeTable.Leave(endTime)
-				text = "【" + strconv.Itoa(year) + "年" + string(month) + "月" + "】" + "の勤怠を一括入力しました :sunglasses:"				
 			}
-			text = strconv.Itoa(t.Day())
+			text = "【" + strconv.Itoa(year) + "年" + string(month) + "月" + "】" + "の勤怠を一括入力しました :sunglasses:"				
 		}
 	case actionTypeLeave:
 		{
