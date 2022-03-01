@@ -19,6 +19,7 @@ const (
 	actionTypeLeave            = "leave"
 	actionTypeReset            = "reset"
 	actionTypeOnTime           = "ontime"
+	actionTypeBulkMonth        = "bulk-month"
 	actionTypeSelectChannel    = "select-channel"
 	actionTypeUnselectChannel  = "unselect-channel"
 	callbackIDChannelSelect    = "slack_channel_select_button"
@@ -72,6 +73,20 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 			timeTable.Unrest(restEndTime)
 			timeTable.Leave(endTime)
 			text = "【" + selectedTimeStr + "】" + "定時で勤怠入力しました :high_brightness:"
+		}
+	case actionTypeBulkMonth:
+		{
+			t := time.Date(year, month, 1, 0, 0, 0, 0, time.UTC).AddDate(0, 0, -1) // 今月の日数
+			// startTime := time.Date(year, month, day, 9, 0, 0, 0, time.UTC) // 定時出勤時刻
+			// endTime := time.Date(year, month, day, 18, 0, 0, 0, time.UTC) // 定時退勤時刻
+			// restStartTime := time.Date(year, month, day, 12, 0, 0, 0, time.UTC) // 定時休憩開始時刻
+			// restEndTime := time.Date(year, month, day, 13, 0, 0, 0, time.UTC) // 定時休憩終了時刻
+			// timeTable.Attend(startTime)
+			// timeTable.Rest(restStartTime)
+			// timeTable.Unrest(restEndTime)
+			// timeTable.Leave(endTime)
+			// text = "【" + selectedTimeStr + "】" + "定時で勤怠入力しました :high_brightness:"
+			text = strconv.Itoa(t)
 		}
 	case actionTypeLeave:
 		{
@@ -296,6 +311,30 @@ func (ctx *Context) getSlackMessage(command slack.SlashCommand) (*slack.Msg, err
 							Type:  "button",
 							Confirm: &slack.ConfirmationField{
 								Text:        "本当に定時打刻しますか？",
+								OkText:      "はい",
+								DismissText: "いいえ",
+							},
+						},
+					},
+				},
+			},
+		}, nil	
+	}
+	if text == "bulk-month" {
+		return &slack.Msg{
+			Text: "今月の勤怠を定時勤務（9:00 ~ 18:00, 休憩12:00 ~ 13:00）として一括入力します。",
+			Attachments: []slack.Attachment{
+				slack.Attachment{
+					CallbackID: callbackIDAttendanceButton,
+					Actions: []slack.AttachmentAction{
+						slack.AttachmentAction{
+							Name:  actionTypeBulkMonth,
+							Value: actionTypeBulkMonth,
+							Text:  "一括入力する",
+							Style: "primary",
+							Type:  "button",
+							Confirm: &slack.ConfirmationField{
+								Text:        "本当に一括入力しますか？",
 								OkText:      "はい",
 								DismissText: "いいえ",
 							},
