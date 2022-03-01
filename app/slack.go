@@ -238,6 +238,13 @@ func (ctx *Context) getSlackMessage(command slack.SlashCommand) (*slack.Msg, err
 			} else if item.IsAttendance() && !item.From.Valid {
 				slackMsg += "出勤時間: 未入力" + "\n"
 			}
+			if item.IsAttendance() && item.To.Valid {
+				dakokuTime = int(item.To.Int64)
+				dakokuTimeStr = convTimeHourColMin(dakokuTime)
+				slackMsg += "退勤時間: " + dakokuTimeStr + "\n"
+			} else if item.IsAttendance() && !item.To.Valid {
+				slackMsg += "退勤時間: 未入力" + "\n"
+			}
 			if item.IsRest() && item.From.Valid {
 				dakokuTime = int(item.From.Int64)
 				dakokuTimeStr = convTimeHourColMin(dakokuTime)
@@ -251,13 +258,6 @@ func (ctx *Context) getSlackMessage(command slack.SlashCommand) (*slack.Msg, err
 				slackMsg += "休憩終了: " + dakokuTimeStr + "\n"
 			} else if item.IsRest() && !item.To.Valid {
 				slackMsg += "休憩終了: 未入力" + "\n"
-			}
-			if item.IsAttendance() && item.To.Valid {
-				dakokuTime = int(item.To.Int64)
-				dakokuTimeStr = convTimeHourColMin(dakokuTime)
-				slackMsg += "退勤時間: " + dakokuTimeStr + "\n"
-			} else if item.IsAttendance() && !item.To.Valid {
-				slackMsg += "退勤時間: 未入力" + "\n"
 			}
 		}
 		return &slack.Msg{
