@@ -233,13 +233,13 @@ func (ctx *Context) getSlackMessage(command slack.SlashCommand) (*slack.Msg, err
 		slackMsg := "【" + todayStr + "】" + "\n"
 		hour := 0
 		min := 0
-		dakokuTime := 0
+		dakokuTime := 0.1
 		dakokuTimeStr := ""
 		items := timeTable.Items
 		for _, item := range items {
 			if item.IsAttendance() && item.From.Valid {
 				dakokuTime = int(item.From.Int64) / 60
-				hour = math.Floor(int64(dakokuTime))
+				hour = math.Floor(dakokuTime)
 				min = (dakokuTime - hour) * 60
 				dakokuTimeStr = strconv.Itoa(hour) + ":" + strconv.Itoa(min)
 				slackMsg += "出勤時間: " + dakokuTimeStr + "\n"
