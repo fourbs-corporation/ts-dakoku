@@ -215,13 +215,18 @@ func (ctx *Context) getSlackMessage(command slack.SlashCommand) (*slack.Msg, err
 		return ctx.getChannelSelectSlackMessage()
 	}
 	if text == "today" {
-		slackMsg := ""
+		slackMsg := "本日の勤怠は未入力です。" + "\n"
 		items := timeTable.Items
 		for _, item := range items {
 			if item.IsAttendance() && item.From.Valid {
-				slackMsg += "出勤時間: " + strconv.Itoa(int(item.From.Int64)) + "\n"
-			} else if item.IsAttendance() && item.To.Valid {
-				slackMsg += "出勤時間: " + strconv.Itoa(int(item.To.Int64)) + "\n"
+				slackMsg = "出勤時間: " + strconv.Itoa(int(item.From.Int64)) + "\n"
+			} else {
+				slackMsg += "退勤時間: 未入力" + "\n"
+			}
+			if item.IsAttendance() && item.To.Valid {
+				slackMsg += "退勤時間: " + strconv.Itoa(int(item.To.Int64)) + "\n"
+			} else {
+				slackMsg += "退勤時間: 未入力" + "\n"
 			}
 		}
 		return &slack.Msg{
