@@ -197,7 +197,7 @@ func (ctx *Context) getChannelSelectSlackMessage() (*slack.Msg, error) {
 func convTimeHourColMin(timeByMin int) string {
 	timeByHour := timeByMin / 60 // 単位：時
 	hour := int(math.Floor(float64(timeByHour))) // 単位：時
-	min := int((timeByHour - hour) * 60) // 単位：分
+	min := int( timeByMin / 60 - float64(hour)) * 60 // 単位：分
 	timeHourColMin := strconv.Itoa(hour) + ":" + strconv.Itoa(min) + "0" // string
 	return timeHourColMin
 }
