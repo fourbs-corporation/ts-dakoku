@@ -217,7 +217,7 @@ func (ctx *Context) getSlackMessage(command slack.SlashCommand) (*slack.Msg, err
 	if text == "today" {
 		slackMsg := ""
 		items := timeTable.Items
-		for i, item := range items {
+		for _, item := range items {
 			if item.IsAttendance() && item.From.Valid {
 				slackMsg += "出勤時間: " + strconv.Itoa(int(item.From.Int64)) + "\n"
 			} else if item.IsAttendance() && item.To.Valid {
