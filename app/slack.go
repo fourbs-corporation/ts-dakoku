@@ -55,6 +55,7 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 		selectedTime = time.Date(year, month, day, hour, min, 0, 0, time.UTC)
 		selectedTimeStr = selectedTime.Format("2006/01/02 15:04") // 日付を文字列化
 	}
+	var ok bool
 	attendance := -1
 	switch data.Actions[0].Name {
 	case actionTypeReset:
@@ -76,6 +77,7 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 		}
 	case actionTypeBulkMonth:
 		{
+			attendance = 0
 			thisMonthEnd := time.Date(year, month + 1, 1, 0, 0, 0, 0, time.UTC).AddDate(0, 0, -1) // 今月の日数
 			lastDay := thisMonthEnd.Day()
 			for i := 1; i <= lastDay; i++ {
@@ -130,7 +132,7 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 		Text:            text,
 	}
 
-	var ok bool
+	// var ok bool
 	if attendance != -1 {
 		// selectedTime := data.Actions[0].SelectedOptions[0].Value // 選択した出勤時間を取得
 		// timeFactor := strings.Split(selectedTime, ":") // 時刻文字列を「:」で分割
