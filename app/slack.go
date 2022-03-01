@@ -86,7 +86,7 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 			// timeTable.Unrest(restEndTime)
 			// timeTable.Leave(endTime)
 			// text = "【" + selectedTimeStr + "】" + "定時で勤怠入力しました :high_brightness:"
-			text = strconv.Itoa(t)
+			text = strconv.Itoa(t.Day())
 		}
 	case actionTypeLeave:
 		{
