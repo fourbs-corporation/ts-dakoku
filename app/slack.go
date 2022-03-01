@@ -12,11 +12,6 @@ import (
 
 )
 
-// type hourMinute struct {
-// 	hour int
-// 	min int
-// }
-
 const (
 	actionTypeAttend           = "attend"
 	actionTypeRest             = "rest"
@@ -199,12 +194,13 @@ func (ctx *Context) getChannelSelectSlackMessage() (*slack.Msg, error) {
 	}, nil
 }
 
-// func convTimeHourMin(time int) *hourMinute {
-// 	timeByHour := time / 60 // 単位：時
-// 	hour := math.Floor(timeByHour) // 単位：時
-// 	min := (timeByHour - hour) * 60 // 単位：分
-// 	return {"hour": hour, "min": min}
-// }
+func convTimeHourColMin(timeByMin int) string {
+	timeByHour := timeByMin / 60 // 単位：時
+	hour := int(math.Floor(float64(timeByHour))) // 単位：時
+	min := int((timeByHour - hour) * 60) // 単位：分
+	timeHourMinCol := strconv.Itoa(hour) + ":" + strconv.Itoa(min) + "0" // string
+	return timeHourColMin
+}
 
 func (ctx *Context) getSlackMessage(command slack.SlashCommand) (*slack.Msg, error) {
 	text := command.Text
@@ -238,10 +234,8 @@ func (ctx *Context) getSlackMessage(command slack.SlashCommand) (*slack.Msg, err
 		items := timeTable.Items
 		for _, item := range items {
 			if item.IsAttendance() && item.From.Valid {
-				dakokuTime = int(item.From.Int64) / 60
-				hour = int(math.Floor(float64(dakokuTime)))
-				min = int((dakokuTime - hour) * 60)
-				dakokuTimeStr = strconv.Itoa(hour) + ":" + strconv.Itoa(min)
+				dakokuTime = int(item.From.Int64)
+				dakokuTimeStr = convTimeHourColMin(dakokuTime)
 				slackMsg += "出勤時間: " + dakokuTimeStr + "\n"
 			} else if item.IsAttendance() && !item.From.Valid {
 				slackMsg += "出勤時間: 未入力" + "\n"
