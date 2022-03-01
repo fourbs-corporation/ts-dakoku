@@ -194,10 +194,6 @@ func (ctx *Context) getChannelSelectSlackMessage() (*slack.Msg, error) {
 }
 
 func (ctx *Context) getSlackMessage(command slack.SlashCommand) (*slack.Msg, error) {
-	log.Printf("-- getSlackMessage command --")
-	log.Print(command)
-	log.Printf("-- getSlackMessage command.Text --")
-	log.Print(command.Text)
 	text := command.Text
 	state := State{
 		TeamID:      command.TeamID,
@@ -217,6 +213,20 @@ func (ctx *Context) getSlackMessage(command slack.SlashCommand) (*slack.Msg, err
 			return ctx.getAuthenticateSlackMessage(state)
 		}
 		return ctx.getChannelSelectSlackMessage()
+	}
+	if text == "today" {
+		slackMsg := ""
+		items := timeTable.Items
+		for i, item := range items {
+			if item.IsAttending() && item.From.Valid {
+				slackMsg += "出勤時間: " + strconv.Itoa(item.From) + "\n"
+			} else if item.IsAttending() && item.To.Valid {
+				slackMsg += "出勤時間: " + strconv.Itoa(item.To) + "\n"
+			}
+		}
+		return &slack.Msg{
+			Text: slackMsg,
+		}, nil
 	}
 	if timeTable.IsLeaving() {
 		return &slack.Msg{
