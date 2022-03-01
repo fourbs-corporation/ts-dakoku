@@ -18,6 +18,7 @@ const (
 	actionTypeUnrest           = "unrest"
 	actionTypeLeave            = "leave"
 	actionTypeReset            = "reset"
+	actionTypeOnTIme            = "ontime"
 	actionTypeSelectChannel    = "select-channel"
 	actionTypeUnselectChannel  = "unselect-channel"
 	callbackIDChannelSelect    = "slack_channel_select_button"
@@ -267,6 +268,30 @@ func (ctx *Context) getSlackMessage(command slack.SlashCommand) (*slack.Msg, err
 		return &slack.Msg{
 			Text: slackMsg,
 		}, nil
+	}
+	if text == "on time" {
+		return &slack.Msg{
+			Text: "定時勤務（9:00 ~ 18:00, 休憩12:00 ~ 13:00）として勤怠を打刻します。",
+			Attachments: []slack.Attachment{
+				slack.Attachment{
+					CallbackID: callbackIDAttendanceButton,
+					Actions: []slack.AttachmentAction{
+						slack.AttachmentAction{
+							Name:  actionTypeOnTime,
+							Value: actionTypeOnTIme,
+							Text:  "定時打刻する",
+							Style: "primary",
+							Type:  "button",
+							Confirm: &slack.ConfirmationField{
+								Text:        "本当に定時打刻しますか？",
+								OkText:      "はい",
+								DismissText: "いいえ",
+							},
+						},
+					},
+				},
+			},
+		}, nil	
 	}
 	if timeTable.IsLeaving() {
 		return &slack.Msg{
