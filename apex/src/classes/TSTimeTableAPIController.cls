@@ -60,8 +60,7 @@ global with sharing class TSTimeTableAPIController {
         // Integer timeHM = hour * 60 + min;
         Integer timeHM = 13 * 60 + 30;
         Map<String, Object> params = getBaseParams();
-        Map<String, Object> input = new Map<String, Object>{'from' => 900, 'to' => 1840, 'type' => 1};
-        // Map<String, Object> input = new Map<String, Object>{'comment' => '', 'time' => timeHM, 'face' => isAttend ? 0 : 1, 'fix' => false, 'type' => 10};
+        Map<String, Object> input = new Map<String, Object>{'comment' => '', 'time' => timeHM, 'face' => isAttend ? 0 : 1, 'fix' => false, 'type' => 10};
         params.put('input', input);
         params.put('prevFlag', false);
         params.put('stdStartTime', stdStartTime);
