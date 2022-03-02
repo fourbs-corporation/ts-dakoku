@@ -65,8 +65,6 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 		}
 	case actionTypeOnTime:
 		{
-			log.Printf("-- timeTable.IsHoliday --")
-			log.Print(timeTable.IsHoliday)
 			startTime := time.Date(year, month, day - 1, 9, 0, 0, 0, time.UTC) // 定時出勤時刻
 			endTime := time.Date(year, month, day - 1, 18, 0, 0, 0, time.UTC) // 定時退勤時刻
 			restStartTime := time.Date(year, month, day - 1, 12, 0, 0, 0, time.UTC) // 定時休憩開始時刻
@@ -92,9 +90,9 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 				timeTable.Unrest(restEndTime)
 				timeTable.Leave(endTime)
 				ok, err = client.UpdateTimeTable(timeTable)
-				if !ok || err != nil {
-					break;
-				}
+				// if !ok || err != nil {
+				// 	break;
+				// }
 			}
 			text = "【" + strconv.Itoa(year) + "年" + strconv.Itoa( int(month) ) + "月" + "】" + "の勤怠を一括入力しました :sunglasses:"				
 		}
@@ -332,7 +330,7 @@ func (ctx *Context) getSlackMessage(command slack.SlashCommand) (*slack.Msg, err
 	}
 	if text == "bulk-month" {
 		return &slack.Msg{
-			Text: "今月の勤怠を定時勤務（9:00 ~ 18:00, 休憩12:00 ~ 13:00）として一括入力します。",
+			Text: "今月の勤怠を定時勤務（9:00 ~ 18:00, 休憩12:00 ~ 13:00）として一括入力します。\n※時間がかかります。",
 			Attachments: []slack.Attachment{
 				slack.Attachment{
 					CallbackID: callbackIDAttendanceButton,
