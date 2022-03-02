@@ -81,13 +81,16 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 			thisMonthEnd := time.Date(year, month + 1, 1, 0, 0, 0, 0, time.UTC).AddDate(0, 0, -1) // 今月の日数
 			lastDay := thisMonthEnd.Day()
 			for i := 0; i < lastDay; i++ {
+				if i == 0 {
+					// 重複するため1回のみ挿入
+					restStartTime := time.Date(year, month, i, 12, 0, 0, 0, time.UTC) // 定時休憩開始時刻
+					restEndTime := time.Date(year, month, i, 13, 0, 0, 0, time.UTC) // 定時休憩終了時刻		
+					timeTable.Rest(restStartTime)
+					timeTable.Unrest(restEndTime)			
+				}
 				startTime := time.Date(year, month, i, 9, 0, 0, 0, time.UTC) // 定時出勤時刻
 				endTime := time.Date(year, month, i, 18, 0, 0, 0, time.UTC) // 定時退勤時刻
-				restStartTime := time.Date(year, month, i, 12, 0, 0, 0, time.UTC) // 定時休憩開始時刻
-				restEndTime := time.Date(year, month, i, 13, 0, 0, 0, time.UTC) // 定時休憩終了時刻
 				timeTable.Attend(startTime)
-				timeTable.Rest(restStartTime)
-				timeTable.Unrest(restEndTime)
 				timeTable.Leave(endTime)
 				ok, err = client.UpdateTimeTable(timeTable)
 				// if !ok || err != nil {
