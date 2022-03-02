@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"time"
+	"log"
 
 	"gopkg.in/guregu/null.v3"
 )
@@ -103,12 +104,14 @@ func (tt *timeTable) Attend(time time.Time) bool {
 	items := tt.Items
 	for i, item := range items {
 		if item.IsAttendance() {
+			items[i].Datetime = time
 			items[i].From = convertTime(time)
 			tt.Items = items
 			return true
 		}
 	}
 	tt.Items = append(tt.Items, timeTableItem{
+		Datetime: time,
 		From: convertTime(time),
 		Type: 1,
 	})
