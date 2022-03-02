@@ -80,7 +80,7 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 			attendance = 0
 			thisMonthEnd := time.Date(year, month + 1, 1, 0, 0, 0, 0, time.UTC).AddDate(0, 0, -1) // 今月の日数
 			lastDay := thisMonthEnd.Day()
-			for i := 1; i <= lastDay; i++ {
+			for i := 0; i < lastDay; i++ {
 				startTime := time.Date(year, month, i, 9, 0, 0, 0, time.UTC) // 定時出勤時刻
 				endTime := time.Date(year, month, i, 18, 0, 0, 0, time.UTC) // 定時退勤時刻
 				restStartTime := time.Date(year, month, i, 12, 0, 0, 0, time.UTC) // 定時休憩開始時刻
