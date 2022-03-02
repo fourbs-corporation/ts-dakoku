@@ -120,6 +120,7 @@ func (tt *timeTable) Attend(time time.Time) bool {
 
 func (tt *timeTable) Rest(time time.Time) bool {
 	tt.Items = append(tt.Items, timeTableItem{
+		Datetime: time,
 		From: convertTime(time),
 		Type: 21,
 	})
@@ -130,12 +131,14 @@ func (tt *timeTable) Unrest(time time.Time) bool {
 	items := tt.Items
 	for i, item := range items {
 		if item.IsRest() && !item.To.Valid {
+			items[i].Datetime = time
 			items[i].To = convertTime(time)
 			tt.Items = items
 			return true
 		}
 	}
 	tt.Items = append(tt.Items, timeTableItem{
+		Datetime: time,
 		To:   convertTime(time),
 		Type: 21,
 	})
@@ -147,12 +150,14 @@ func (tt *timeTable) Leave(time time.Time) bool {
 	items := tt.Items
 	for i, item := range items {
 		if item.Type == 1 {
+			items[i].Datetime = time
 			items[i].To = convertTime(time)
 			tt.Items = items
 			return true
 		}
 	}
 	tt.Items = append(tt.Items, timeTableItem{
+		Datetime: time,
 		To:   convertTime(time),
 		Type: 1,
 	})
