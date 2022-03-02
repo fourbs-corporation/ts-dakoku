@@ -345,7 +345,7 @@ func (ctx *Context) getSlackMessage(command slack.SlashCommand) (*slack.Msg, err
 							Style: "primary",
 							Type:  "button",
 							Confirm: &slack.ConfirmationField{
-								Text:        "本当に一括入力しますか？",
+								Text:        "本当に一括入力しますか？。\n※時間がかかります。",
 								OkText:      "はい",
 								DismissText: "いいえ",
 							},
