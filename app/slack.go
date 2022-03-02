@@ -66,7 +66,7 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 	case actionTypeOnTime:
 		{
 			log.Printf("-- timeTable.IsHoliday --")
-			log.Printf(timeTable.IsHoliday)
+			log.Print(timeTable.IsHoliday)
 			startTime := time.Date(year, month, day - 1, 9, 0, 0, 0, time.UTC) // 定時出勤時刻
 			endTime := time.Date(year, month, day - 1, 18, 0, 0, 0, time.UTC) // 定時退勤時刻
 			restStartTime := time.Date(year, month, day - 1, 12, 0, 0, 0, time.UTC) // 定時休憩開始時刻
