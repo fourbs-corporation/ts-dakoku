@@ -43,7 +43,11 @@ global with sharing class TSTimeTableAPIController {
     }
 
     public Boolean inputTimeTable(List<Map<String, Integer>> timeTable) {
-        Map<String, Object> params = getBaseParams();
+        Long dtUnix = timeTable.get(0).get('datetime'); // Unix型
+        // Long dtUnix = 1646376127; // Unix型
+        Datetime dt = Datetime.newInstance(dtUnix * 1000); // 2019-06-10T01:23:00+09:00
+        Date targetDate = dt.Date(); // Date型
+        Map<String, Object> params = getBaseParams(targetDate);
         params.put('timeTable', timeTable);
         String jsonReq = JSON.serialize(params);
         Map<String, Object> res = teamspirit.RtkPotalCtl.inputTimeTable(jsonReq);
@@ -59,7 +63,7 @@ global with sharing class TSTimeTableAPIController {
         // DateTime now = DateTime.now();
         // Integer timeHM = hour * 60 + min;
         Integer timeHM = 13 * 60 + 30;
-        Map<String, Object> params = getBaseParams();
+        Map<String, Object> params = getBaseParams(null);
         Map<String, Object> input = new Map<String, Object>{'comment' => '', 'time' => timeHM, 'face' => isAttend ? 0 : 1, 'fix' => false, 'type' => 10};
         params.put('input', input);
         params.put('prevFlag', false);
@@ -131,6 +135,7 @@ global with sharing class TSTimeTableAPIController {
             empDays = new List<teamspirit__AtkEmpDay__c>();
         }
         Date today = getToday();
+        // Date today = Date.newinstance(2022,3,31);
         for (teamspirit__AtkEmpDay__c day: empDays) {
             if (day.teamspirit__Date__c == today) {
                 empToday = day;
@@ -145,13 +150,15 @@ global with sharing class TSTimeTableAPIController {
         return empToday != null && empToday.teamspirit__DayType__c != null && Integer.valueOf(empToday.teamspirit__DayType__c) > 0 && empToday.teamspirit__HolidayWorkApplyId__c == null;
     }
 
-    private Map<String, Object>getBaseParams() {
+    private Map<String, Object>getBaseParams(Date argDate) {
+        Date targetDate = argDate == null ? getToday() : argDate;
         Map<String, Object> params = new Map<String, Object>();
         params.put('empId', empId);
         params.put('month', yearMonth);
         params.put('startDate', startDate);
         params.put('lastModifiedDate', lastModifiedDate);
-        params.put('date', DateTime.newInstance(getToday(), Time.newInstance(0, 0, 0, 0)).format('yyyy-MM-dd'));
+        // params.put('date', DateTime.newInstance(getToday(), Time.newInstance(0, 0, 0, 0)).format('yyyy-MM-dd'));
+        params.put('date', DateTime.newInstance(targetDate, Time.newInstance(0, 0, 0, 0)).format('yyyy-MM-dd'));
         return params;
     }
 }
