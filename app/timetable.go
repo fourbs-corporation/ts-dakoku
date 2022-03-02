@@ -19,6 +19,7 @@ type timeTable struct {
 }
 
 type timeTableItem struct {
+	Datetime time.Time `json:"datetime"`
 	From null.Int `json:"from,omitempty"`
 	To   null.Int `json:"to,omitempty"`
 	Type int      `json:"type"`
