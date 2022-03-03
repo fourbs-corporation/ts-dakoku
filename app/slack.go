@@ -65,10 +65,10 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 		}
 	case actionTypeOnTime:
 		{
-			startTime := time.Date(year, month, day - 1, 9, 0, 0, 0, time.UTC) // 定時出勤時刻
-			endTime := time.Date(year, month, day - 1, 18, 0, 0, 0, time.UTC) // 定時退勤時刻
-			restStartTime := time.Date(year, month, day - 1, 12, 0, 0, 0, time.UTC) // 定時休憩開始時刻
-			restEndTime := time.Date(year, month, day - 1, 13, 0, 0, 0, time.UTC) // 定時休憩終了時刻
+			startTime := time.Date(year, month, day, 9, 0, 0, 0, time.UTC) // 定時出勤時刻
+			endTime := time.Date(year, month, day, 18, 0, 0, 0, time.UTC) // 定時退勤時刻
+			restStartTime := time.Date(year, month, day, 12, 0, 0, 0, time.UTC) // 定時休憩開始時刻
+			restEndTime := time.Date(year, month, day, 13, 0, 0, 0, time.UTC) // 定時休憩終了時刻
 			timeTable.Attend(startTime)
 			timeTable.Rest(restStartTime)
 			timeTable.Unrest(restEndTime)
