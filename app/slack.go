@@ -30,7 +30,7 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 	ctx.UserID = data.User.ID
 	client := ctx.createTimeTableClient()
 	timeTable, err := client.GetTimeTable()
-	log.Printf("-- timeTable.IsRest --")
+	log.Printf("-- timeTable.Items --")
 	log.Print(timeTable.Items)
 	if err != nil {
 		state := State{
@@ -45,7 +45,7 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 	text := ""
 	now := time.Now()
 	year, month, day := now.Date()
-	selectedTime := time.Now() // 初期化
+	selectedTime := time.Date(year, month, day, now.Hour(), now.Minute(), 0, 0, time.UTC) // 初期化
 	selectedTimeStr := selectedTime.Format("2006/01/02") // 初期化
 	if data.Actions[0].Type == "select" {
 		selectedValue := data.Actions[0].SelectedOptions[0].Value // 選択した出勤時間を取得
