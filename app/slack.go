@@ -75,30 +75,6 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 			timeTable.Leave(endTime)
 			text = "【" + selectedTimeStr + "】" + "定時で勤怠入力しました :high_brightness:"
 		}
-	case actionTypeBulkMonth:
-		{
-			attendance = 0
-			thisMonthEnd := time.Date(year, month + 1, 1, 0, 0, 0, 0, time.UTC).AddDate(0, 0, -1) // 今月の日数
-			lastDay := thisMonthEnd.Day()
-			for i := 0; i < lastDay; i++ {
-				if i == 0 {
-					// 重複するため1回のみ挿入
-					restStartTime := time.Date(year, month, i, 12, 0, 0, 0, time.UTC) // 定時休憩開始時刻
-					restEndTime := time.Date(year, month, i, 13, 0, 0, 0, time.UTC) // 定時休憩終了時刻		
-					timeTable.Rest(restStartTime)
-					timeTable.Unrest(restEndTime)			
-				}
-				startTime := time.Date(year, month, i, 9, 0, 0, 0, time.UTC) // 定時出勤時刻
-				endTime := time.Date(year, month, i, 18, 0, 0, 0, time.UTC) // 定時退勤時刻
-				timeTable.Attend(startTime)
-				timeTable.Leave(endTime)
-				ok, err = client.UpdateTimeTable(timeTable)
-				// if !ok || err != nil {
-				// 	break;
-				// }
-			}
-			text = "【" + strconv.Itoa(year) + "年" + strconv.Itoa( int(month) ) + "月" + "】" + "の勤怠を一括入力しました :sunglasses:"				
-		}
 	case actionTypeLeave:
 		{
 			if !timeTable.HasRested() {
@@ -322,30 +298,6 @@ func (ctx *Context) getSlackMessage(command slack.SlashCommand) (*slack.Msg, err
 							Type:  "button",
 							Confirm: &slack.ConfirmationField{
 								Text:        "本当に定時打刻しますか？",
-								OkText:      "はい",
-								DismissText: "いいえ",
-							},
-						},
-					},
-				},
-			},
-		}, nil	
-	}
-	if text == "bulk-month" {
-		return &slack.Msg{
-			Text: "今月の勤怠を定時勤務（9:00 ~ 18:00, 休憩12:00 ~ 13:00）として一括入力します。\n※時間がかかります。",
-			Attachments: []slack.Attachment{
-				slack.Attachment{
-					CallbackID: callbackIDAttendanceButton,
-					Actions: []slack.AttachmentAction{
-						slack.AttachmentAction{
-							Name:  actionTypeBulkMonth,
-							Value: actionTypeBulkMonth,
-							Text:  "一括入力する",
-							Style: "primary",
-							Type:  "button",
-							Confirm: &slack.ConfirmationField{
-								Text:        "本当に一括入力しますか？。\n※時間がかかります。",
 								OkText:      "はい",
 								DismissText: "いいえ",
 							},

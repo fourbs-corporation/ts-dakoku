@@ -18,7 +18,6 @@ type timeTable struct {
 }
 
 type timeTableItem struct {
-	Datetime  int `json:"datetime"`
 	From null.Int `json:"from,omitempty"`
 	To   null.Int `json:"to,omitempty"`
 	Type int      `json:"type"`
@@ -104,14 +103,12 @@ func (tt *timeTable) Attend(time time.Time) bool {
 	items := tt.Items
 	for i, item := range items {
 		if item.IsAttendance() {
-			items[i].Datetime = int(time.Unix())
 			items[i].From = convertTime(time)
 			tt.Items = items
 			return true
 		}
 	}
 	tt.Items = append(tt.Items, timeTableItem{
-		Datetime: int(time.Unix()),
 		From: convertTime(time),
 		Type: 1,
 	})
@@ -120,7 +117,6 @@ func (tt *timeTable) Attend(time time.Time) bool {
 
 func (tt *timeTable) Rest(time time.Time) bool {
 	tt.Items = append(tt.Items, timeTableItem{
-		Datetime: int(time.Unix()),
 		From: convertTime(time),
 		Type: 21,
 	})
@@ -131,14 +127,12 @@ func (tt *timeTable) Unrest(time time.Time) bool {
 	items := tt.Items
 	for i, item := range items {
 		if item.IsRest() && !item.To.Valid {
-			items[i].Datetime = int(time.Unix())
 			items[i].To = convertTime(time)
 			tt.Items = items
 			return true
 		}
 	}
 	tt.Items = append(tt.Items, timeTableItem{
-		Datetime: int(time.Unix()),
 		To:   convertTime(time),
 		Type: 21,
 	})
@@ -150,14 +144,12 @@ func (tt *timeTable) Leave(time time.Time) bool {
 	items := tt.Items
 	for i, item := range items {
 		if item.Type == 1 {
-			items[i].Datetime = int(time.Unix())
 			items[i].To = convertTime(time)
 			tt.Items = items
 			return true
 		}
 	}
 	tt.Items = append(tt.Items, timeTableItem{
-		Datetime: int(time.Unix()),
 		To:   convertTime(time),
 		Type: 1,
 	})
@@ -168,14 +160,12 @@ func (tt *timeTable) Reset(time time.Time) bool {
 	items := tt.Items
 	for i, item := range items {
 		if item.Type == 21 || item.Type == 22 {
-			items[i].Datetime = int(time.Unix())
 			items[i].From = null.NewInt(0, false) // null
 			items[i].To = null.NewInt(0, false) // null
 			tt.Items = items
 		}
 	}
 	tt.Items = append(tt.Items, timeTableItem{
-		Datetime: int(time.Unix()),
 		From:   null.NewInt(0, false), // null
 		To:   null.NewInt(0, false), // null
 		Type: 1,
