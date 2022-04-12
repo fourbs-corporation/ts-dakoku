@@ -19,8 +19,8 @@ type timeTable struct {
 }
 
 type workLacItem struct {
-	ObjectId String `json:"objectId"`
-	Name     String `json:"name"`
+	ObjectId string `json:"objectId"`
+	Name     string `json:"name"`
 }
 
 type timeTableItem struct {
