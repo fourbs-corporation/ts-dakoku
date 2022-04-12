@@ -22,8 +22,10 @@ const (
 	actionTypeBulkMonth        = "bulk-month"
 	actionTypeSelectChannel    = "select-channel"
 	actionTypeUnselectChannel  = "unselect-channel"
+	actionTypeSelectWorkLoc    = "select-work-location"
 	callbackIDChannelSelect    = "slack_channel_select_button"
 	callbackIDAttendanceButton = "attendance_button"
+	callbackIDSelectWorkLoc    = "slack-select-work-location"
 )
 
 func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*slack.Msg, string, error) {
@@ -43,6 +45,7 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 	}
 
 	text := ""
+	callbackID := ""
 	now := time.Now()
 	year, month, day := now.Date()
 	selectedTime := time.Date(year, month, day, now.Hour(), now.Minute(), 0, 0, time.UTC) // 初期化
@@ -126,13 +129,44 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 			// attendance = 1
 			timeTable.Attend(selectedTime)
 			text = "【" + selectedTimeStr + "】" + "出勤しました :office:"
+			callbackID = callbackIDSelectWorkLoc
 		}
 	}
 
-	params := &slack.Msg{
-		ResponseType:    "in_channel",
-		ReplaceOriginal: true,
-		Text:            text,
+	if callbackID == "" {
+		params := &slack.Msg{
+			ResponseType:    "in_channel",
+			ReplaceOriginal: true,
+			Text:            text,
+		}
+	} else {
+		// 勤務地選択用
+		params := &slack.Msg{
+			ResponseType:    "in_channel",
+			ReplaceOriginal: true,
+			Text:            text,
+			CallbackID: callbackID,
+			Actions: []slack.AttachmentAction{
+				slack.AttachmentAction{
+					Name:  actionTypeSelectWorkLoc,
+					Value: actionTypeSelectWorkLoc,
+					Text:  "勤務地を選択",
+					Style: "default",
+					Type:  "select",
+					Options: []slack.AttachmentActionOption{
+						{
+							Text: "本社",
+							Value: "wxhbcsjhdbcjshlc",
+						},
+					},
+					Confirm: &slack.ConfirmationField{
+						Text:        "選択した勤務地で登録しますか？",
+						OkText:      "はい",
+						DismissText: "いいえ",
+					},
+				},
+			},
+		}
 	}
 
 	// var ok bool
