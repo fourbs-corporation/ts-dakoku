@@ -20,8 +20,8 @@ type timeTable struct {
 }
 
 type workLocItem struct {
-	ObjectId string `json:"objectId"`
-	Name     string `json:"name"`
+	ObjectId string `json:"objectId,omitempty"`
+	Name     string `json:"name,omitempty"`
 }
 
 type timeTableItem struct {
