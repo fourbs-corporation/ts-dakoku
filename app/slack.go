@@ -145,8 +145,8 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 		var options []map[string]string
 		eachOpt := make(map[string]string)
 		for k, v := range timeTable.WorkLocation {
-			eachOpt["Tetx"] = v.Name
-			eachOpt["Value"] = v.Id
+			eachOpt["Text"] = v.Name
+			eachOpt["Value"] = v.ObjectId
 			options = append(options, eachOpt)
 		}
 		params = &slack.Msg{
