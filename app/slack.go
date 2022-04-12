@@ -162,7 +162,7 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 							Style: "default",
 							Type:  "select",
 							Options: []slack.AttachmentActionOption{
-								options
+								options,
 							},
 							Confirm: &slack.ConfirmationField{
 								Text:        "選択した勤務地で登録しますか？",
