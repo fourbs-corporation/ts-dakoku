@@ -142,7 +142,7 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 		}
 	} else {
 		// 勤務地選択用
-		var options[len(timeTable.WorkLocation)] string
+		var options[10] string
 		optionText := ""
 		// eachOpt := make(map[string]string)
 		for k, v := range timeTable.WorkLocation {
