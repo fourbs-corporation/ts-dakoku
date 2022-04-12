@@ -16,7 +16,7 @@ import (
 type timeTable struct {
 	Items        []timeTableItem `json:"timeTable"`
 	IsHoliday    *bool           `json:"isHoliday,omitempty"`
-	WorkLocation []workLocItem   `json:"workLocation"`
+	WorkLocation []workLocItem   `json:"workLocation,omitempty"`
 }
 
 type workLocItem struct {
