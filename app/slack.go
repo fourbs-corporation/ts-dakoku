@@ -59,8 +59,13 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 		selectedTimeStr = selectedTime.Format("2006/01/02 15:04") // 日付を文字列化
 	}
 	var ok bool
-	attendance := -1
+	isWorkLocation := -1
 	switch data.Actions[0].Name {
+	case actionTypeSelectWorkLoc:
+		{
+			isWorkLocation := 0
+			text = "【" + selectedTimeStr + "】" + "勤務地を登録しました :office:"
+		}
 	case actionTypeReset:
 		{
 			timeTable.Reset(selectedTime)
@@ -80,7 +85,7 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 		}
 	case actionTypeBulkMonth:
 		{
-			attendance = 0
+			isWorkLocation = 0
 			thisMonthEnd := time.Date(year, month + 1, 1, 0, 0, 0, 0, time.UTC).AddDate(0, 0, -1) // 今月の日数
 			lastDay := thisMonthEnd.Day()
 			for i := 0; i < lastDay; i++ {
@@ -110,7 +115,7 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 				timeTable.Rest(restStartTime)
 				timeTable.Unrest(restEndTime)
 			}
-			// attendance = 0
+			// isWorkLocation = 0
 			timeTable.Leave(selectedTime)
 			text = "【" + selectedTimeStr + "】" + "退勤しました :house:"
 		}
@@ -126,7 +131,7 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 		}
 	case actionTypeAttend:
 		{
-			// attendance = 1
+			// isWorkLocation = 1
 			timeTable.Attend(selectedTime)
 			text = "【" + selectedTimeStr + "】" + "出勤しました :office:"
 			callbackID = callbackIDSelectWorkLoc
@@ -182,14 +187,10 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 	}
 
 	// var ok bool
-	if attendance != -1 {
-		// selectedTime := data.Actions[0].SelectedOptions[0].Value // 選択した出勤時間を取得
-		// timeFactor := strings.Split(selectedTime, ":") // 時刻文字列を「:」で分割
-		// hour, _ := strconv.Atoi(timeFactor[0]) // string to int
-		// min, _ := strconv.Atoi(timeFactor[1]) // string to int
-		// attendTime := time.Date(year, month, day, hour, min, 0, 0, time.UTC)
-		// ok, err = client.SetAttendance(1, hour, min)
-		// ok, err = client.SetAttendance(attendance == 1)
+	if isWorkLocation != -1 {
+		// 勤務地登録
+		workLocId := data.Actions[0].SelectedOptions[0].Value
+		ok, err = client.SetWorkLocation(workLocId)
 	} else {
 		ok, err = client.UpdateTimeTable(timeTable)
 	}
