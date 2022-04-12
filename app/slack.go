@@ -142,15 +142,6 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 		}
 	} else {
 		// 勤務地選択用
-		var options []string
-		optionText := ""
-		// eachOpt := make(map[string]string)
-		for k, v := range timeTable.WorkLocation {
-			// eachOpt["Text"] = v.Name
-			// eachOpt["Value"] = v.ObjectId
-			optionText = "{" + "Text:" + v.Name + "," + "Value:" + v.ObjectId + "},"
-			options = append(options, optionText)
-		}
 		params = &slack.Msg{
 			Attachments: []slack.Attachment{
 				slack.Attachment{
@@ -164,7 +155,19 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 							Style: "default",
 							Type:  "select",
 							Options: []slack.AttachmentActionOption{
-								options,
+								// Sandbox
+								{
+									Text: "終日在宅",
+									Value: "a1T1s000000plI8EAI",
+								},
+								{
+									Text: "終日社内",
+									Value: "a1T1s000000plI9EAI",
+								},
+								{
+									Text: "在宅・社内",
+									Value: "a1T1s000000plIAEAY",
+								},
 							},
 							Confirm: &slack.ConfirmationField{
 								Text:        "選択した勤務地で登録しますか？",
