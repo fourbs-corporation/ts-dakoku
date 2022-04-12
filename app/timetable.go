@@ -224,11 +224,13 @@ func (client *timeTableClient) GetTimeTable() (*timeTable, error) {
 	}
 	log.Printf("-- GetTimeTable Method --")
 	log.Print( parseTimeTable(body) )
+	log.Print( err )
 	return parseTimeTable(body)
 }
 
 func (client *timeTableClient) UpdateTimeTable(timeTable *timeTable) (bool, error) {
 	timeTable.IsHoliday = nil
+	timeTable.WorkLocation = nil
 	b, err := json.Marshal(timeTable)
 	if err != nil {
 		return false, err
