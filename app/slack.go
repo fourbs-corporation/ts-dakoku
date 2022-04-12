@@ -133,15 +133,16 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 		}
 	}
 
+	params := &slack.Msg{}
 	if callbackID == "" {
-		params := &slack.Msg{
+		params = &slack.Msg{
 			ResponseType:    "in_channel",
 			ReplaceOriginal: true,
 			Text:            text,
 		}
 	} else {
 		// 勤務地選択用
-		params := &slack.Msg{
+		params = &slack.Msg{
 			Attachments: []slack.Attachment{
 				slack.Attachment{
 					CallbackID: callbackIDSelectWorkLoc,
