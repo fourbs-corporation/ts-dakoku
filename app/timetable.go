@@ -13,8 +13,14 @@ import (
 )
 
 type timeTable struct {
-	Items     []timeTableItem `json:"timeTable"`
-	IsHoliday *bool           `json:"isHoliday,omitempty"`
+	Items        []timeTableItem `json:"timeTable"`
+	IsHoliday    *bool           `json:"isHoliday,omitempty"`
+	WorkLocation []workLacItem   `json:"workLocation"`
+}
+
+type workLacItem struct {
+	ObjectId String `json:"objectId"`
+	Name     String `json:"name"`
 }
 
 type timeTableItem struct {
