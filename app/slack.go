@@ -142,7 +142,7 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 		}
 	} else {
 		// 勤務地選択用
-		options := []map[string]string
+		var options []map[string]string
 		eachOpt := make(map[string]string)
 		for k, v := range timeTable.WorkLocation {
 			eachOpt["Tetx"] = v.Name
