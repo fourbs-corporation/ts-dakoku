@@ -145,6 +145,7 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 		params = &slack.Msg{
 			Attachments: []slack.Attachment{
 				slack.Attachment{
+					Text: "続いて、勤務地を選択してください",
 					CallbackID: callbackIDSelectWorkLoc,
 					Actions: []slack.AttachmentAction{
 						slack.AttachmentAction{
@@ -154,10 +155,12 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 							Style: "default",
 							Type:  "select",
 							Options: []slack.AttachmentActionOption{
-								{
-									Text: "本社",
-									Value: "sczksjcnkzsj",
-								},
+								for k, v := range timeTable.WorkLocation {
+									{
+										Text: v.Name,
+										Value: v.Id,
+									},	
+								}
 							},
 							Confirm: &slack.ConfirmationField{
 								Text:        "選択した勤務地で登録しますか？",
