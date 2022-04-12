@@ -149,7 +149,7 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 			// eachOpt["Text"] = v.Name
 			// eachOpt["Value"] = v.ObjectId
 			optionText = "{" + "Text:" + v.Name + "," + "Value:" + v.ObjectId + "},"
-			options[k] = append(options, optionText)
+			options[k] = optionText
 		}
 		params = &slack.Msg{
 			Attachments: []slack.Attachment{
