@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"time"
+	"log"
 
 	"gopkg.in/guregu/null.v3"
 )
@@ -15,10 +16,10 @@ import (
 type timeTable struct {
 	Items        []timeTableItem `json:"timeTable"`
 	IsHoliday    *bool           `json:"isHoliday,omitempty"`
-	WorkLocation []workLacItem   `json:"workLocation"`
+	WorkLocation []workLocItem   `json:"workLocation"`
 }
 
-type workLacItem struct {
+type workLocItem struct {
 	ObjectId string `json:"objectId"`
 	Name     string `json:"name"`
 }
@@ -221,6 +222,8 @@ func (client *timeTableClient) GetTimeTable() (*timeTable, error) {
 	if err != nil {
 		return nil, err
 	}
+	log.Printf("-- GetTimeTable Method --")
+	log.Print( parseTimeTable(body) )
 	return parseTimeTable(body)
 }
 
