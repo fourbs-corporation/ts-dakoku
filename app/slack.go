@@ -63,7 +63,7 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 	switch data.Actions[0].Name {
 	case actionTypeSelectWorkLoc:
 		{
-			isWorkLocation := 0
+			isWorkLocation = 0
 			text = "【" + selectedTimeStr + "】" + "勤務地を登録しました :office:"
 		}
 	case actionTypeReset:
