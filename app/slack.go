@@ -142,12 +142,14 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 		}
 	} else {
 		// 勤務地選択用
-		var options []map[string]string
-		eachOpt := make(map[string]string)
+		var options []string
+		optionText := ""
+		// eachOpt := make(map[string]string)
 		for k, v := range timeTable.WorkLocation {
-			eachOpt["Text"] = v.Name
-			eachOpt["Value"] = v.ObjectId
-			options = append(options, eachOpt)
+			// eachOpt["Text"] = v.Name
+			// eachOpt["Value"] = v.ObjectId
+			optionText = "{" + "Text:" + v.Name + "," + "Value:" + v.ObjectId + "},"
+			options = append(options, optionText)
 		}
 		params = &slack.Msg{
 			Attachments: []slack.Attachment{
