@@ -246,7 +246,7 @@ func (client *timeTableClient) UpdateTimeTable(timeTable *timeTable) (bool, erro
 // func (client *timeTableClient) SetWorkLocation(attendance bool) (bool, error) {
 func (client *timeTableClient) SetWorkLocation(workLocId string) (bool, error) {
 	log.Printf("-- SetWorkLocation Method --")
-	log.Print( parseTimeTable(workLocId) )
+	log.Print( workLocId )
 	data := map[string]string{"workLocId": workLocId}
 	b, err := json.Marshal(data)
 	if err != nil {
