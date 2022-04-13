@@ -189,10 +189,10 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 	// var ok bool
 	if isWorkLocation != -1 {
 		// 勤務地登録
-		log.Printf("-- isWorkLocation true case --")
-		log.Print(workLocId)
 		workLocId := data.Actions[0].SelectedOptions[0].Value
 		ok, err = client.SetWorkLocation(workLocId)
+		log.Printf("-- isWorkLocation true case --")
+		log.Print(workLocId)
 	} else {
 		ok, err = client.UpdateTimeTable(timeTable)
 	}
