@@ -45,7 +45,6 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 	}
 
 	text := ""
-	callbackID := ""
 	now := time.Now()
 	year, month, day := now.Date()
 	selectedTime := time.Date(year, month, day, now.Hour(), now.Minute(), 0, 0, time.UTC) // 初期化
