@@ -141,6 +141,8 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 	}
 
 	// var ok bool
+	log.Printf("-- isWorkLocation status --")
+	log.Print(isWorkLocation)
 	if isWorkLocation != -1 {
 		// 勤務地登録
 		workLocId := data.Actions[0].SelectedOptions[0].Value
