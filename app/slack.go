@@ -135,7 +135,7 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 		}
 	}
 
-	params = &slack.Msg{
+	params := &slack.Msg{
 		ResponseType:    "in_channel",
 		ReplaceOriginal: true,
 		Text:            text,
