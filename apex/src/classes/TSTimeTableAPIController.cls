@@ -12,6 +12,7 @@ global with sharing class TSTimeTableAPIController {
     global class TimeTableResponse {
         public List<Map<String, Integer>> timeTable;
         public Boolean isHoliday;
+        public List<Map<String, String>> workLocation;
     }
 
     @HttpGet
@@ -30,9 +31,9 @@ global with sharing class TSTimeTableAPIController {
     }
 
     @HttpPut
-    global static String handleSetAttendance(Integer attendance, Integer hour, Integer min) {
+    global static String handleSetWorkLocation(String workLocId) {
         TSTimeTableAPIController ctrl = new TSTimeTableAPIController();
-        if (ctrl.setAttendance(attendance, hour, min)) {
+        if (ctrl.setWorkLocation(workLocId)) {
             return 'OK';
         }
         return 'NG';
@@ -55,29 +56,35 @@ global with sharing class TSTimeTableAPIController {
         return res.get('result') == 'OK';
     }
 
-    public Boolean setAttendance(Integer attendance, Integer hour, Integer min) {
-        Boolean isAttend = false;
-        if (attendance == 1) {
-            isAttend = true;
+    public Boolean setWorkLocation(String workLocId) {
+	    String userId = UserInfo.getUserId();
+        Date today = Date.today();
+        List<teamspirit__AtkEmpDay__c> workLocQuery = [
+            SELECT
+                Id,
+                teamspirit__WorkLocationId__c
+            FROM
+                teamspirit__AtkEmpDay__c
+            WHERE
+                teamspirit__Date__c = :today
+            AND
+                CreatedById = :userId
+        ];
+
+        workLocQuery[0].teamspirit__WorkLocationId__c = workLocId;
+
+        try {
+            upsert workLocQuery;
+        } catch (DmlException e) {
+            return false;
         }
-        // DateTime now = DateTime.now();
-        // Integer timeHM = hour * 60 + min;
-        Integer timeHM = 13 * 60 + 30;
-        Map<String, Object> params = getBaseParams(null);
-        Map<String, Object> input = new Map<String, Object>{'comment' => '', 'time' => timeHM, 'face' => isAttend ? 0 : 1, 'fix' => false, 'type' => 10};
-        params.put('input', input);
-        params.put('prevFlag', false);
-        params.put('stdStartTime', stdStartTime);
-        params.put('stdEndTime', stdEndTime);
-        String jsonReq = JSON.serialize(params);
-        Map<String, Object> res = teamspirit.RtkPotalCtl.inputTime(jsonReq);
-        lastModifiedDate = String.valueOf(res.get('lastModifiedDate'));
-        return res.get('result') == 'OK';
+        return true;
     }
 
     public TimeTableResponse getTimeTable() {
         TimeTableResponse res = new TimeTableResponse();
         res.isHoliday = isHoliday();
+        res.workLocation = getWorkLocation();
         List<Map<String, Integer>> timeTable = new List<Map<String, Integer>>();
         res.timeTable = timeTable;
         if (empToday == null) {
@@ -150,7 +157,7 @@ global with sharing class TSTimeTableAPIController {
         return empToday != null && empToday.teamspirit__DayType__c != null && Integer.valueOf(empToday.teamspirit__DayType__c) > 0 && empToday.teamspirit__HolidayWorkApplyId__c == null;
     }
 
-    private Map<String, Object>getBaseParams(Date argDate) {
+    private Map<String, Object> getBaseParams(Date argDate) {
         Date targetDate = argDate == null ? getToday() : argDate;
         Map<String, Object> params = new Map<String, Object>();
         params.put('empId', empId);
@@ -161,4 +168,29 @@ global with sharing class TSTimeTableAPIController {
         params.put('date', DateTime.newInstance(targetDate, Time.newInstance(0, 0, 0, 0)).format('yyyy-MM-dd'));
         return params;
     }
-}
+
+    private List<Map<String, String>> getWorkLocation() {
+        Map<String, String> workLocList = new Map<String, String>{};
+        List<Map<String, String>> result = new List<Map<String, String>>();
+
+        List<teamspirit__WorkLocation__c> query = [
+            SELECT
+                Id, 
+                Name,
+                teamspirit__WorkLocationCode__c
+            FROM
+                teamspirit__WorkLocation__c
+            LIMIT 100
+        ];
+    
+        for (teamspirit__WorkLocation__c eachArray : query) {
+            workLocList = new Map<String, String>{};
+            workLocList.put('Id', eachArray.Id);
+            workLocList.put('Name', eachArray.Name);
+            result.add(workLocList);
+        }
+            
+        return result;
+    }
+
+} // End of the Class
