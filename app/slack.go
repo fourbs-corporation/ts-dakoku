@@ -85,7 +85,7 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 		}
 	case actionTypeBulkMonth:
 		{
-			isWorkLocation = 0
+			// isWorkLocation = 0
 			thisMonthEnd := time.Date(year, month + 1, 1, 0, 0, 0, 0, time.UTC).AddDate(0, 0, -1) // 今月の日数
 			lastDay := thisMonthEnd.Day()
 			for i := 0; i < lastDay; i++ {
@@ -115,7 +115,6 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 				timeTable.Rest(restStartTime)
 				timeTable.Unrest(restEndTime)
 			}
-			// isWorkLocation = 0
 			timeTable.Leave(selectedTime)
 			text = "【" + selectedTimeStr + "】" + "退勤しました :house:"
 		}
@@ -131,59 +130,15 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 		}
 	case actionTypeAttend:
 		{
-			// isWorkLocation = 1
 			timeTable.Attend(selectedTime)
 			text = "【" + selectedTimeStr + "】" + "出勤しました :office:"
-			callbackID = callbackIDSelectWorkLoc
 		}
 	}
 
-	params := &slack.Msg{}
-	if callbackID == "" {
-		params = &slack.Msg{
-			ResponseType:    "in_channel",
-			ReplaceOriginal: true,
-			Text:            text,
-		}
-	} else {
-		// 勤務地選択用
-		params = &slack.Msg{
-			Attachments: []slack.Attachment{
-				slack.Attachment{
-					Text: "続いて、勤務地を選択してください",
-					CallbackID: callbackIDSelectWorkLoc,
-					Actions: []slack.AttachmentAction{
-						slack.AttachmentAction{
-							Name:  actionTypeSelectWorkLoc,
-							Value: actionTypeSelectWorkLoc,
-							Text:  "勤務地を選択する",
-							Style: "default",
-							Type:  "select",
-							Options: []slack.AttachmentActionOption{
-								// Sandbox
-								{
-									Text: "終日在宅",
-									Value: "a1T1s000000plI8EAI",
-								},
-								{
-									Text: "終日社内",
-									Value: "a1T1s000000plI9EAI",
-								},
-								{
-									Text: "在宅・社内",
-									Value: "a1T1s000000plIAEAY",
-								},
-							},
-							Confirm: &slack.ConfirmationField{
-								Text:        "選択した勤務地で登録しますか？",
-								OkText:      "はい",
-								DismissText: "いいえ",
-							},
-						},
-					},
-				},
-			},
-		}
+	params = &slack.Msg{
+		ResponseType:    "in_channel",
+		ReplaceOriginal: true,
+		Text:            text,
 	}
 
 	// var ok bool
@@ -403,6 +358,45 @@ func (ctx *Context) getSlackMessage(command slack.SlashCommand) (*slack.Msg, err
 				},
 			},
 		}, nil	
+	}
+	if text == "location" {
+		return &slack.Msg{
+			Attachments: []slack.Attachment{
+				slack.Attachment{
+					Text: "本日の勤務地を選択してください",
+					CallbackID: callbackIDSelectWorkLoc,
+					Actions: []slack.AttachmentAction{
+						slack.AttachmentAction{
+							Name:  actionTypeSelectWorkLoc,
+							Value: actionTypeSelectWorkLoc,
+							Text:  "勤務地を選択する",
+							Style: "default",
+							Type:  "select",
+							Options: []slack.AttachmentActionOption{
+								// Sandbox
+								{
+									Text: "終日在宅",
+									Value: "a1T1s000000plI8EAI",
+								},
+								{
+									Text: "終日社内",
+									Value: "a1T1s000000plI9EAI",
+								},
+								{
+									Text: "在宅・社内",
+									Value: "a1T1s000000plIAEAY",
+								},
+							},
+							Confirm: &slack.ConfirmationField{
+								Text:        "選択した勤務地で登録しますか？",
+								OkText:      "はい",
+								DismissText: "いいえ",
+							},
+						},
+					},
+				},
+			},
+		}, nil		
 	}
 	if timeTable.IsLeaving() {
 		return &slack.Msg{
