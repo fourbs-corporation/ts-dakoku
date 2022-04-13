@@ -49,7 +49,7 @@ func (ctx *Context) getActionCallback(data *slack.AttachmentActionCallback) (*sl
 	year, month, day := now.Date()
 	selectedTime := time.Date(year, month, day, now.Hour(), now.Minute(), 0, 0, time.UTC) // 初期化
 	selectedTimeStr := selectedTime.Format("2006/01/02") // 初期化
-	if data.Actions[0].Type == "select" {
+	if data.Actions[0].Type == "select" && data.Actions[0].Name != actionTypeSelectWorkLoc {
 		selectedValue := data.Actions[0].SelectedOptions[0].Value // 選択した出勤時間を取得
 		timeFactor := strings.Split(selectedValue, ":") // 時刻文字列を「:」で分割
 		hour, _ := strconv.Atoi(timeFactor[0]) // string to int
