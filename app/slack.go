@@ -383,7 +383,7 @@ func (ctx *Context) getSlackMessage(command slack.SlashCommand) (*slack.Msg, err
 							Type:  "select",
 							Options: []slack.AttachmentActionOption{
 								// Sandbox
-								options
+								options,
 								// {
 								// 	Text: "終日在宅",
 								// 	Value: "a1T1s000000plI8EAI",
