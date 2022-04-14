@@ -361,6 +361,14 @@ func (ctx *Context) getSlackMessage(command slack.SlashCommand) (*slack.Msg, err
 		}, nil	
 	}
 	if text == "location" {
+		object := make(map[string]string)
+		var options []map[string]string
+		for _, v := range timeTable {
+			object = make(map[string]string) // 初期化
+			object["Text"] = v.Name
+			object["Value"] = v.Id
+			options = append(slice, object)
+		}
 		return &slack.Msg{
 			Attachments: []slack.Attachment{
 				slack.Attachment{
@@ -375,18 +383,19 @@ func (ctx *Context) getSlackMessage(command slack.SlashCommand) (*slack.Msg, err
 							Type:  "select",
 							Options: []slack.AttachmentActionOption{
 								// Sandbox
-								{
-									Text: "終日在宅",
-									Value: "a1T1s000000plI8EAI",
-								},
-								{
-									Text: "終日社内",
-									Value: "a1T1s000000plI9EAI",
-								},
-								{
-									Text: "在宅・社内",
-									Value: "a1T1s000000plIAEAY",
-								},
+								options
+								// {
+								// 	Text: "終日在宅",
+								// 	Value: "a1T1s000000plI8EAI",
+								// },
+								// {
+								// 	Text: "終日社内",
+								// 	Value: "a1T1s000000plI9EAI",
+								// },
+								// {
+								// 	Text: "在宅・社内",
+								// 	Value: "a1T1s000000plIAEAY",
+								// },
 							},
 							Confirm: &slack.ConfirmationField{
 								Text:        "選択した勤務地で登録しますか？",
